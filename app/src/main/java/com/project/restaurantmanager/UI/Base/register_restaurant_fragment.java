@@ -156,7 +156,7 @@ public class register_restaurant_fragment extends Fragment {
                 BitmapDrawable drawable = (BitmapDrawable) imageView.getDrawable();
 
                 Bitmap image = drawable.getBitmap();
-                image = Bitmap.createScaledBitmap(image, 90, 90, false);
+                image = Bitmap.createScaledBitmap(image, 512, 512, false);
 
                 imageView.setImageBitmap(image);
 
