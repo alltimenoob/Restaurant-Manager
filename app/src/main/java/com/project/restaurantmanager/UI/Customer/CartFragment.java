@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -44,6 +45,8 @@ public class CartFragment extends Fragment {
     private Button placeOrder;//Order Button
 
     private ListView cartListView;
+    ImageView cartEmptyimageView;
+    TextView cartEmptytextView;
 
     private int i;//For Main Foor Loop
 
@@ -68,6 +71,11 @@ public class CartFragment extends Fragment {
         final CustomAdapter customAdapter = new CustomAdapter();
 
         cartListView.setAdapter(customAdapter);
+
+        if(nameForCart.isEmpty())
+        {
+
+        }
 
         itemTotalTextView = viewForAll.findViewById(R.id.cust_cart_itemtotal);
         taxTextView = viewForAll.findViewById(R.id.cust_cart_tax);
@@ -124,6 +132,7 @@ public class CartFragment extends Fragment {
 
         return viewForAll;
     }
+
     class CustomAdapter extends BaseAdapter
     {
 
@@ -148,6 +157,10 @@ public class CartFragment extends Fragment {
             convertView = getLayoutInflater().inflate(R.layout.listview_cart_layout,parent,false);
 
             if(!nameForCart.isEmpty()){
+                cartEmptyimageView = viewForAll.findViewById(R.id.cart_card_empty_image);
+                cartEmptyimageView.setVisibility(View.GONE);
+                cartEmptytextView= viewForAll.findViewById(R.id.cart_card_empty_text);
+                cartEmptytextView.setVisibility(View.GONE);
                 relativeLayout = viewForAll.findViewById(R.id.cust_cart_order_relativeLayout);
                 relativeLayout.setVisibility(View.VISIBLE);
             }
@@ -155,7 +168,7 @@ public class CartFragment extends Fragment {
             final TextView nameTextView = convertView.findViewById(R.id.customer_cart_listview_nameLabel);
             final TextView priceTextView = convertView.findViewById(R.id.customer_cart_listview_priceLabel);
             final ElegantNumberButton quantityButton = convertView.findViewById(R.id.customer_cart_listview_quantityButton);
-            quantityButton.setRange(1,10);
+            quantityButton.setRange(0,10);
 
             quantityButton.setId(position);
             priceTextView.setId(position+1000);
@@ -167,9 +180,10 @@ public class CartFragment extends Fragment {
             catch (IndexOutOfBoundsException ob)
             {
                 quantityButton.setNumber("1");
+                quantity.add(quantityButton.getId(),"1");
             }
 
-            quantity.add(quantityButton.getId(),"1");
+
 
             final View finalConvertView = convertView;
             quantityButton.setOnValueChangeListener(new ElegantNumberButton.OnValueChangeListener() {
@@ -188,6 +202,8 @@ public class CartFragment extends Fragment {
 
                         if(nameForCart.isEmpty()){
                             relativeLayout.setVisibility(View.INVISIBLE);
+                            cartEmptyimageView.setVisibility(View.VISIBLE);
+                            cartEmptytextView.setVisibility(View.VISIBLE);
                             total=0.0;
                             grandTotal=0.0;
                             clearCart=true;

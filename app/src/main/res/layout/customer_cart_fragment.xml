@@ -15,6 +15,24 @@
        android:text="@string/items"
        android:textSize="50sp" />
 
+
+    <ImageView
+        android:id="@+id/cart_card_empty_image"
+        android:layout_centerInParent="true"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/ic_shopping_cart"/>
+
+    <TextView
+        android:id="@+id/cart_card_empty_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:textSize="20sp"
+        android:fontFamily="sans-serif-condensed-medium"
+        android:layout_below="@id/cart_card_empty_image"
+        android:text="Your Cart Is Empty"/>
+
     <ListView
         android:divider="@color/colorWhite"
         android:id="@+id/cart_card_listView"
