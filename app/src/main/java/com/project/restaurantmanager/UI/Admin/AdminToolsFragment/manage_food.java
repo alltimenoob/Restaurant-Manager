@@ -3,6 +3,7 @@ package com.project.restaurantmanager.UI.Admin.AdminToolsFragment;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
@@ -10,6 +11,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -110,11 +112,12 @@ public class manage_food extends Fragment {
 
     }
     private void dynamic_views(int i){
-
+        Resources r = getResources();
         final RelativeLayout layoutInner = new RelativeLayout(getContext());
         layoutInner.setId(i);
+        int px = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 100, r.getDisplayMetrics());
         final RelativeLayout.LayoutParams layoutForInner = new RelativeLayout.LayoutParams
-                (RelativeLayout.LayoutParams.MATCH_PARENT, 200);
+                (RelativeLayout.LayoutParams.MATCH_PARENT, px);
         layoutForInner.setMargins(10,10,10,10);
         layoutInner.setBackgroundResource(R.drawable.border_layout);
         layoutInner.setOnLongClickListener(new View.OnLongClickListener() {
@@ -130,8 +133,9 @@ public class manage_food extends Fragment {
         });
 
         image = new ImageView(getContext());
+        int px1 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 90, r.getDisplayMetrics());
         RelativeLayout.LayoutParams layoutForImage= new RelativeLayout.LayoutParams
-                (RelativeLayout.LayoutParams.WRAP_CONTENT, 180);
+                (px1, px1);
         layoutForImage.leftMargin = 20;
         layoutForImage.topMargin = 20;
         layoutForImage.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
@@ -139,8 +143,7 @@ public class manage_food extends Fragment {
         String imagebase64 =  items.get(i).getImage();
         byte[] imagedecoded = Base64.decode(imagebase64,Base64.DEFAULT);
         Bitmap decodedimage = BitmapFactory.decodeByteArray(imagedecoded,0,imagedecoded.length);
-        Bitmap resizedimage = Bitmap.createScaledBitmap(decodedimage,240,180,false);
-        image.setImageBitmap(resizedimage);
+        image.setImageBitmap(decodedimage);
 
         name = new TextView(getContext());
         RelativeLayout.LayoutParams layoutForName = new RelativeLayout.LayoutParams

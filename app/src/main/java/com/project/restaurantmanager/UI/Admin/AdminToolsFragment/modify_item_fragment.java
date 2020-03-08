@@ -9,6 +9,7 @@ import android.provider.ContactsContract;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -95,9 +96,9 @@ public class modify_item_fragment extends Fragment {
 
         BitmapDrawable drawable = (BitmapDrawable) imageView.getDrawable();
         Bitmap image = drawable.getBitmap();
-        image = Bitmap.createScaledBitmap(image,90,90,false);
+        image = Bitmap.createScaledBitmap(image,512,512,false);
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        image.compress(Bitmap.CompressFormat.PNG,65,outputStream);
+        image.compress(Bitmap.CompressFormat.JPEG,100,outputStream);
         byte[] arry = outputStream.toByteArray();
 
         final String local  = Base64.encodeToString(arry,0,arry.length,Base64.DEFAULT);
@@ -119,6 +120,7 @@ public class modify_item_fragment extends Fragment {
                         map.put("name",name.getText().toString());
                         map.put("price",price.getText().toString());
                         map.put("image",encoded);
+                        Log.d("image", "params: "+encoded);
                         return map;
                     }
                 };
@@ -143,14 +145,13 @@ public class modify_item_fragment extends Fragment {
                 BitmapDrawable drawable = (BitmapDrawable) imageView.getDrawable();
 
                 Bitmap image = drawable.getBitmap();
-                image = Bitmap.createScaledBitmap(image,90,90,false);
+                image = Bitmap.createScaledBitmap(image,512,512,false);
 
                 imageView.setImageBitmap(image);
 
                 ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-                image.compress(Bitmap.CompressFormat.PNG,65,outputStream);
+                image.compress(Bitmap.CompressFormat.PNG,100,outputStream);
                 byte[] arry = outputStream.toByteArray();
-
                 encoded = Base64.encodeToString(arry,0,arry.length,Base64.DEFAULT);
 
 
