@@ -112,6 +112,7 @@ public class modify_item_fragment extends Fragment {
                     @Override
                     public void writeCode(String response) throws Exception {
                         Toast.makeText(getContext(), response.trim(), Toast.LENGTH_SHORT).show();
+                        getActivity().getSupportFragmentManager().popBackStack();
                     }
                     @Override
                     public Map<String, String> params() {

@@ -4,57 +4,29 @@
     android:layout_width="match_parent"
     android:layout_marginBottom="70dp"
     android:background="@color/colorWhite"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <ScrollView
-        android:id="@+id/admin_food_scrollview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorWhite">
-
-        <RelativeLayout
-            android:id="@+id/admin_food_cardView"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/admin_food_item_text"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/colorWhite">
+            android:fontFamily="sans-serif-condensed-light"
+            android:padding="5dp"
+            android:text="Food Items"
+            android:textSize="25sp" />
 
-            <TextView
-                android:id="@+id/admin_food_item_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-condensed-light"
-                android:padding="5dp"
-                android:text="Food Items"
-                android:textSize="25sp" />
+        <ListView
+            android:divider="@color/colorWhite"
+            android:dividerHeight="20px"
+            android:layout_below="@+id/admin_food_item_text"
+            android:id="@+id/admin_food_listView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" />
 
-            <LinearLayout
-                android:layout_below="@+id/admin_food_item_text"
-                android:id="@+id/admin_food_verticalLinearLayout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical" />
 
-            <RelativeLayout
-                android:layout_marginTop="10px"
-                android:layout_marginBottom="10px"
-                android:background="@drawable/border_layout"
-                android:layout_below="@+id/admin_food_verticalLinearLayout"
-                android:layout_width="match_parent"
-                android:layout_height="200px"
-                android:id="@+id/admin_food_add_food_layout">
 
-                <ImageView
-                    android:id="@+id/admin_food_imageV"
-                    android:layout_width ="80px"
-                    android:layout_height="80px"
-                    android:layout_centerInParent="true"
-                    android:src="@drawable/ic_plus"
-                    />
 
-            </RelativeLayout>
 
-        </RelativeLayout>
-
-    </ScrollView>
 </RelativeLayout>
+

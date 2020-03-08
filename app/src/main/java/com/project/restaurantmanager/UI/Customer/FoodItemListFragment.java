@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -69,11 +68,9 @@ public class FoodItemListFragment extends Fragment {
 
         foodItemsList = db.getFoodData(FoodReservationFragment.mSelectedRid);
 
-        if(foodItemsList.size()>0)
-        {
-            customAdapter.filter("");
-            mFoodListView.setAdapter(customAdapter);
-        }
+        customAdapter.filter("");
+        mFoodListView.setAdapter(customAdapter);
+
 
         DatabaseHandler databaseHandler = new DatabaseHandler(DatabaseHandler.getitems_link, getContext()) {
             @Override
@@ -94,8 +91,7 @@ public class FoodItemListFragment extends Fragment {
                 }
 
                 foodItemsList = db.getFoodData(FoodReservationFragment.mSelectedRid);
-                mFoodListView.setAdapter(customAdapter);
-                customAdapter.filter("");
+                customAdapter.notifyDataSetChanged();
             }
             @Override
             public Map<String, String> params() {
@@ -189,7 +185,7 @@ public class FoodItemListFragment extends Fragment {
 
                 mImageView.setImageBitmap(getImage(mFoodItems));
                 mNameTextView.setText(mFoodItems.getName());
-                mPriceTextView.setText(mFoodItems.getPrice() + "");
+                mPriceTextView.setText((int)Math.round(mFoodItems.getPrice())+" ₹");
 
                 mAddButton.setOnClickListener(new View.OnClickListener() {
                     @Override
