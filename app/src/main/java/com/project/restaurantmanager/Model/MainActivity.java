@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
             /*First Fragment To Container*/
             fragmentManager = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.add(R.id.base_container, new base_fragment(), null).commit();
+            fragmentTransaction.replace(R.id.base_container, new base_fragment(), null).commit();
         }
     }
 
