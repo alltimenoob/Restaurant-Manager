@@ -98,6 +98,7 @@ public class register_fragment extends Fragment {
                         map.put("name", Objects.requireNonNull(name.getText()).toString());
                         map.put("contact", Objects.requireNonNull(mobile.getText()).toString());
                         map.put("address", Objects.requireNonNull(address.getText()).toString());
+                        Log.d("lol", "params: "+map);
                         return map;
                     }
                 };
