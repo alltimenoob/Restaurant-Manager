@@ -39,7 +39,10 @@ public class Recyclerviewadapter_Table extends RecyclerView.Adapter<Recyclerview
             holder.time.setTextOff(timeList.get(position));
             holder.time.setTextOn(timeList.get(position));
             holder.time.setChecked(lastPos == position);
+            startTimeDB = timeList.get(lastPos);
+            endTimeDB=timeList.get(lastPos+1);
         }
+
         if(holder.time.isChecked()){
             holder.time.setTextColor(Color.WHITE);
         }

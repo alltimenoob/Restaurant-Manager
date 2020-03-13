@@ -8,31 +8,26 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 import com.project.restaurantmanager.Controller.DatabaseHandler;
 import com.project.restaurantmanager.Model.AdminActivity;
 import com.project.restaurantmanager.R;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.project.restaurantmanager.Controller.DatabaseHandler.admin_setEmployeeLink;
-import static com.project.restaurantmanager.Controller.DatabaseHandler.finishorder_link;
+import static com.project.restaurantmanager.Controller.DatabaseHandler.REGISTER_EMPLOYEE;
+
 
 public class add_employee_fragment extends Fragment {
     View view;
@@ -72,7 +67,7 @@ public class add_employee_fragment extends Fragment {
             public void onClick(View v) {
                 progressBar.setVisibility(View.VISIBLE);
                 progressBar.setIndeterminate(true);
-                DatabaseHandler databaseHandler = new DatabaseHandler(admin_setEmployeeLink,getContext()) {
+                DatabaseHandler databaseHandler = new DatabaseHandler(REGISTER_EMPLOYEE,getContext()) {
                     @Override
                     public void writeCode(String response) throws Exception {
                         Log.d("ffff", "writeCode: "+response);

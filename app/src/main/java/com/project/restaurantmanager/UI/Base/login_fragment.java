@@ -15,18 +15,11 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.project.restaurantmanager.Controller.DatabaseHandler;
-import com.project.restaurantmanager.Controller.SharedPreferencesHandler;
 import com.project.restaurantmanager.Model.AdminActivity;
 import com.project.restaurantmanager.Model.CustomerActivity;
 import com.project.restaurantmanager.Model.EmployeeActivity;
@@ -70,7 +63,7 @@ public class login_fragment extends Fragment {
                    passwordLayout.setError("Enter Username And Password");
                }
 
-               DatabaseHandler databaseHandler = new DatabaseHandler(DatabaseHandler.login_link,getContext()) {
+               DatabaseHandler databaseHandler = new DatabaseHandler(DatabaseHandler.LOGIN,getContext()) {
                    @Override
                    public void writeCode(String response) throws JSONException {
                        Log.d("LUND", ""+response);
@@ -107,7 +100,7 @@ public class login_fragment extends Fragment {
                                MainActivity.sharedPreferences.setAddress(address);
                                MainActivity.sharedPreferences.setId(id);
 
-                               registerToken("customer");
+                               registerTopic("customer");
 
                                intent = new Intent(getActivity(), CustomerActivity.class);
 
@@ -121,7 +114,7 @@ public class login_fragment extends Fragment {
                                MainActivity.sharedPreferences.setAddress(address);
                                MainActivity.sharedPreferences.setId(id);
 
-                               registerToken("admin");
+                               registerTopic("admin");
 
                                intent = new Intent(getActivity(), AdminActivity.class);
 
@@ -137,7 +130,7 @@ public class login_fragment extends Fragment {
                                MainActivity.sharedPreferences.setRid(object.getString("rid"));
                                MainActivity.sharedPreferences.setId(id);
 
-                               registerToken("employee");
+                               registerTopic("employee");
 
                                intent = new Intent(getActivity(), EmployeeActivity.class);
 
@@ -171,10 +164,8 @@ public class login_fragment extends Fragment {
         return view;
     }
 
-    private void registerToken(String user)
-    {
-        final DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users").child(user);
-
-        reference.child(MainActivity.sharedPreferences.getId()).setValue(MainActivity.sharedPreferences.getToken());
+    private void registerTopic(String user) {
+        final String topic = user + MainActivity.sharedPreferences.getId();
+        FirebaseMessaging.getInstance().subscribeToTopic(topic);
     }
 }

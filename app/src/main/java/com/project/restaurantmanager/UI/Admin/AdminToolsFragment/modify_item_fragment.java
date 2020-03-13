@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Base64;
@@ -17,7 +16,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,13 +25,11 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.project.restaurantmanager.Controller.DatabaseHandler;
 import com.project.restaurantmanager.R;
 
-import org.json.JSONException;
-import org.w3c.dom.Text;
-
 import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.project.restaurantmanager.Controller.DatabaseHandler.UPDATE_FOODITEM_ADMIN;
 import static com.project.restaurantmanager.UI.Admin.AdminToolsFragment.manage_food.bitmapDB;
 import static com.project.restaurantmanager.UI.Admin.AdminToolsFragment.manage_food.nameDB;
 import static com.project.restaurantmanager.UI.Admin.AdminToolsFragment.manage_food.priceDB;
@@ -96,7 +92,7 @@ public class modify_item_fragment extends Fragment {
 
         BitmapDrawable drawable = (BitmapDrawable) imageView.getDrawable();
         Bitmap image = drawable.getBitmap();
-        image = Bitmap.createScaledBitmap(image,512,512,false);
+        image = Bitmap.createScaledBitmap(image,256,256,false);
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         image.compress(Bitmap.CompressFormat.JPEG,100,outputStream);
         byte[] arry = outputStream.toByteArray();
@@ -108,7 +104,7 @@ public class modify_item_fragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if(!flag){encoded=local;}
-                DatabaseHandler databaseHandler = new DatabaseHandler("http://34.93.41.224/admin_modify_item.php",getContext()) {
+                DatabaseHandler databaseHandler = new DatabaseHandler(UPDATE_FOODITEM_ADMIN,getContext()) {
                     @Override
                     public void writeCode(String response) throws Exception {
                         Toast.makeText(getContext(), response.trim(), Toast.LENGTH_SHORT).show();
@@ -146,7 +142,7 @@ public class modify_item_fragment extends Fragment {
                 BitmapDrawable drawable = (BitmapDrawable) imageView.getDrawable();
 
                 Bitmap image = drawable.getBitmap();
-                image = Bitmap.createScaledBitmap(image,512,512,false);
+                image = Bitmap.createScaledBitmap(image,256,256,false);
 
                 imageView.setImageBitmap(image);
 

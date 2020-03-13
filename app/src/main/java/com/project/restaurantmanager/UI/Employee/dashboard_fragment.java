@@ -1,8 +1,6 @@
 package com.project.restaurantmanager.UI.Employee;
 
-import android.animation.Animator;
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -11,11 +9,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
-import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -33,7 +28,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.project.restaurantmanager.Controller.DatabaseHandler;
-import com.project.restaurantmanager.Model.CustomerActivity;
 import com.project.restaurantmanager.Model.EmployeeActivity;
 import com.project.restaurantmanager.R;
 import com.project.restaurantmanager.UI.Customer.FoodReservationFragment;
@@ -46,10 +40,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TooManyListenersException;
 
-import static com.project.restaurantmanager.Controller.DatabaseHandler.finishorder_link;
-import static com.project.restaurantmanager.UI.Customer.CartFragment.mapDB;
+import static com.project.restaurantmanager.Controller.DatabaseHandler.SEND_NOTIFICATION;
+import static com.project.restaurantmanager.Controller.DatabaseHandler.UPDATE_FINISH_ORDER_EMPLOYEE;
 import static com.project.restaurantmanager.UI.Employee.menu_fragment.order_table;
 
 public class dashboard_fragment extends Fragment {
@@ -89,7 +82,7 @@ public class dashboard_fragment extends Fragment {
         //Subh Sharuaat
 
         layoutOuter.removeAllViews();
-        DatabaseHandler handler = new DatabaseHandler(DatabaseHandler.gettables_link,getContext()) {
+        DatabaseHandler handler = new DatabaseHandler(DatabaseHandler.TABLE_LIST_EMPLOYEE_DASHBOARD,getContext()) {
             @Override
             public void writeCode(String response) throws JSONException, InterruptedException {
                 JSONArray jsonArray =new JSONArray(response);
@@ -182,11 +175,10 @@ public class dashboard_fragment extends Fragment {
                 TextView nam = view.findViewById(id+200);
                 LinearLayout item = view.findViewById(id+300);
 
-                DatabaseHandler handler2 = new DatabaseHandler(finishorder_link,getContext()) {
+                DatabaseHandler handler2 = new DatabaseHandler(UPDATE_FINISH_ORDER_EMPLOYEE,getContext()) {
                     @Override
                     public void writeCode(String response) throws Exception {
                         Toast.makeText(getContext(),response,Toast.LENGTH_LONG).show();
-                        sendNotification(tablenumbers.get(id));
                     }
                     @Override
                     public Map<String, String> params() {
@@ -214,7 +206,7 @@ public class dashboard_fragment extends Fragment {
             final int id = items.getId();
             final String oid = order_table.get(tablenumbers.get(i));
 
-          DatabaseHandler handler = new DatabaseHandler(DatabaseHandler.employee_getorders_link,getContext()) {
+          DatabaseHandler handler = new DatabaseHandler(DatabaseHandler.ORDER_ITEMLIST_EMPLOYEE_DASHBOARD,getContext()) {
                 @Override
                 public void writeCode(String response) throws JSONException {
                     JSONArray array = new JSONArray(response);
@@ -250,7 +242,7 @@ public class dashboard_fragment extends Fragment {
                                 if(isChecked)
                                 {
                                     buttonView.setTextColor(Color.WHITE);
-                                    DatabaseHandler databaseHandler = new DatabaseHandler("http://34.93.41.224/update_employee_order.php",getContext()) {
+                                    DatabaseHandler databaseHandler = new DatabaseHandler(UPDATE_FOODITEM_SERVED_EMPLOYEE,getContext()) {
                                         @Override
                                         public void writeCode(String response) throws Exception {
 
@@ -298,35 +290,4 @@ public class dashboard_fragment extends Fragment {
         layoutOuter.addView(layoutInner, layoutForInner);
 
     }
-
-    private void sendNotification(final String tableno)
-    {
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users").child("admin");
-        reference.child(EmployeeActivity.sharedPreferencesHandler.getRid()).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                final String token = dataSnapshot.getValue()+"";
-
-                DatabaseHandler handler = new DatabaseHandler("http://34.93.41.224/sendNoti.php",getContext()) {
-                    @Override
-                    public void writeCode(String response) throws JSONException, InterruptedException, Exception { }
-
-                    @Override
-                    public Map<String, String> params() {
-                        Map<String,String> map = new HashMap<>();
-                        map.put("message","Time to generate bill for Table : "+tableno+"...");
-                        map.put("token",token);
-                        return map;
-                    }
-                };
-                handler.execute();
-
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }
-
 }

@@ -5,12 +5,21 @@ public class Orders {
     private String amount;
     private String[] items=new String[10];
     private String[] quantity=new String[10];
+    private String restaurant;
 
-    public Orders(String date, String amount,String[] items,String[] quantity){
+    public Orders(String date, String amount, String[] items, String[] quantity) {
         this.date = date;
         this.amount = amount;
         this.items = items;
         this.quantity = quantity;
+    }
+
+    public Orders(String date, String amount, String[] items, String[] quantity, String restaurant) {
+        this.date = date;
+        this.amount = amount;
+        this.items = items;
+        this.quantity = quantity;
+        this.restaurant = restaurant;
     }
 
     public String getDate() {
@@ -43,5 +52,13 @@ public class Orders {
 
     public void setQuantity(String[] quantity) {
         this.quantity = quantity;
+    }
+
+    public String getRestaurant() {
+        return restaurant;
+    }
+
+    public void setRestaurant(String restaurant) {
+        this.restaurant = restaurant;
     }
 }

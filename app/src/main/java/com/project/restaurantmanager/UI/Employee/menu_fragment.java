@@ -70,7 +70,7 @@ public class menu_fragment extends Fragment {
             oid=order_table.get(""+ tno);
         }
 
-        final DatabaseHandler handler = new DatabaseHandler(DatabaseHandler.getitems_link,getContext()) {
+        final DatabaseHandler handler = new DatabaseHandler(DatabaseHandler.FOOD_ITEMLIST_CUSTOMER,getContext()) {
             @Override
             public void writeCode(String response) throws JSONException {
 
@@ -129,7 +129,7 @@ public class menu_fragment extends Fragment {
                     }
                     else {
 
-                        DatabaseHandler handler1 = new DatabaseHandler(DatabaseHandler.sendEmpOrders_link, getContext()) {
+                        DatabaseHandler handler1 = new DatabaseHandler(DatabaseHandler.INSERT_NEW_ODER_EMPLOYEE, getContext()) {
                             @Override
                             public void writeCode(String response) throws JSONException {
                                 JSONObject object = new JSONObject(response);

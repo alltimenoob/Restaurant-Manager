@@ -27,33 +27,49 @@ public abstract class DatabaseHandler {
 
     //Links
 
-    public static String admin_setEmployeeLink = "http://34.93.41.224/register_employee.php";
-    public static String admin_getEmployeeLink = "http://34.93.41.224/admin_getEmployee.php";
-    public static String admin_online_set_orderLink = "http://34.93.41.224/admin_set_order_online.php?ono=22";
-    public static String admin_onlineordLink = "http://34.93.41.224/get_admin_online_orders.php";
-    public static String admin_resLink = "http://34.93.41.224/admin_reservation.php";
-    public static String send_invoiceLink = "http://34.93.41.224/send_invoice.php";
-    public static String finishorder_link = "http://34.93.41.224/finishOrder.php";
-    public static String welcome_link = "http://34.93.41.224/welcome_mailrequest.php";
-    public static String employee_getorders_link = "http://34.93.41.224/employee_getOrders.php";
-    public static String admin_getorders_link = "http://34.93.41.224/admin__getOrders.php";
-    public static String sendEmpOrders_link = "http://34.93.41.224/employee_order.php";
-    public static String gettables_link = "http://34.93.41.224/tables.php";
-    public static String yourorders_link = "http://34.93.41.224/yourorders.php";
-    public static String yourreservation_link = "http://34.93.41.224/your_reservation.php";
-    public static String getitems_link = "http://34.93.41.224/getItems.php";
-    public static String login_link = "http://34.93.41.224/index.php";
-    public static String singup_link = "http://34.93.41.224/signup.php";
-    public static String afterpayment_link = "http://34.93.41.224/after_payment.php";
-    public static String otp_link = "http://34.93.41.224/otp.php";
-    public static String reservation_link = "http://34.93.41.224/reservation.php";
-    public static String manageaccount_link = "http://34.93.41.224/manageaccount.php";
-    public static String contactus_link = "http://34.93.41.224/contactus.php";
-    public static String updateaddress_link = "http://34.93.41.224/updateaddress.php";
-    public static String updatepassword_link = "http://34.93.41.224/updatepassword.php";
-    public static String placeorder_link = "http://34.93.41.224/placeorder_customer.php";
-    public static String mailrequest_link = "http://34.93.41.224/mailrequest.php";
-    public static String admin_allorders = "http://34.93.41.224/admin_allorders.php";
+    public static final String REGISTER_RESTAURANT_CHECK = "http://34.93.41.224/RegisterRestaurantCheck.php";
+    public static final String REGISTER_RESTAURANT = "http://34.93.41.224/RegisterRestaurant.php";
+    public static final String REGISTER_EMPLOYEE = "http://34.93.41.224/RegisterEmployee.php";
+    public static final String EMPLOYEE_LIST_ADMIN = "http://34.93.41.224/EmployeeListAdmin.php";
+    public static final String ACCEPT_ONLINE_ORDER_ADMIN = "http://34.93.41.224/AcceptOnlineOrderAdmin.php";
+    public static final String ADMIN_ONLINE_ORDER_LINK = "http://34.93.41.224/OnlineOrderListAdmin.php";
+    public static final String RESERVATION_LIST_ADMIN = "http://34.93.41.224/ReservationListAdmin.php";
+    public static final String INVOICE_TO_CUSTOMER_ADMIN = "http://34.93.41.224/InvoiceToCustomerAdmin.php";
+    public static final String UPDATE_FINISH_ORDER_EMPLOYEE = "http://34.93.41.224/UpdateFinishOrderEmployee.php";
+    public static final String WELCOME_MAIL_CUSTOMER = "http://34.93.41.224/WelcomeMailCustomer.php";
+    public static final String ORDER_ITEMLIST_EMPLOYEE_DASHBOARD = "http://34.93.41.224/OrderItemListEmployeeDashboard.php";
+    public static final String OFFLINE_ORDER_ITEMLIST_ADMIN = "http://34.93.41.224/OfflineOrderItemListAdmin.php";
+    public static final String INSERT_NEW_ODER_EMPLOYEE = "http://34.93.41.224/InsertNewOrderEmployee.php";
+    public static final String TABLE_LIST_EMPLOYEE_DASHBOARD = "http://34.93.41.224/TableListEmployeeDashboard.php";
+    public static final String ORDER_LIST_CUSTOMER = "http://34.93.41.224/OrderListCustomer.php";
+    public static final String RESERVATION_LIST_CUSTOMER = "http://34.93.41.224/ReservationListCustomer.php";
+    public static final String FOOD_ITEMLIST_CUSTOMER = "http://34.93.41.224/FoodItemListCustomer.php";
+    public static final String LOGIN = "http://34.93.41.224/Login.php";
+    public static final String REGISTER_CUSTOMER = "http://34.93.41.224/RegisterCustomer.php";
+    public static final String INSERT_NEW_RESERVATION_CUSTOMER = "http://34.93.41.224/InsertNewReservationCustomer.php";
+    public static final String RESET_PASSWORD_CUSTOMER = "http://34.93.41.224/ResetPasswordCustomer.php";
+    public static final String INSERT_RESERVATION_CHECK_CUSTOMER = "http://34.93.41.224/InsertReservationCheckCustomer.php";
+    public static final String UPDATE_ACCOUNT_SETTING_EMPLOYEE_CUSTOMER = "http://34.93.41.224/UpdateAccountSettingCustomerEmployee.php";
+    public static final String CONTACT_US = "http://34.93.41.224/ContactUs.php";
+    public static final String UPDATE_ADDRESS_CUSTOMER_EMPLOYEE = "http://34.93.41.224/UpdateAddressCustomerEmployee.php";
+    public static final String UPDATE_PASSWORD_CUSTOMER_EMPLOYEE = "http://34.93.41.224/UpdatePasswordCustomerEmployee.php";
+    public static final String INSERT_NEW_ORDER_CUSTOMER = "http://34.93.41.224/InsertNewOrderCustomer.php";
+    public static final String RESET_PASSWORD_MAIL_CUSTOMER = "http://34.93.41.224/ResetPasswordMailCustomer.php";
+    public static final String ORDER_LIST_ADMIN = "http://34.93.41.224/OrderListAdmin.php";
+	public static final String OFFLINE_ORDER_LIST_ADMIN = "http://34.93.41.224/OfflineOrderListAdmin.php";
+	public static final String DELETE_FOOD_ITEM_ADMIN = "http://34.93.41.224/DeleteFoodItemAdmin.php";
+	public static final String TABLE_LIST_ADMIN_EMPLOYEE = "http://34.93.41.224/TableListAdminEmployee.php";
+	public static final String INSERT_TABLE_ADMIN = "http://34.93.41.224/InsertTableAdmin.php";
+	public static final String DELETE_TABLE_ADMIN = "http://34.93.41.224/DeleteTableAdmin.php";
+	public static final String UPDATE_TABLE_ADMIN = "http://34.93.41.224/UpdateTableAdmin.php";
+	public static final String DELETE_EMPLOYEE_ADMIN = "http://34.93.41.224/DeleteEmployeeAdmin.php";
+	public static final String INSERT_FOODITEM_ADMIN = "http://34.93.41.224/InsertFoodItemAdmin.php";
+	public static final String UPDATE_FOODITEM_ADMIN = "http://34.93.41.224/UpdateFoodItemAdmin.php";
+	public static final String SEND_NOTIFICATION = "http://34.93.41.224/SendNotification.php";
+	public static final String UPDATE_FOODITEM_SERVED_EMPLOYEE = "http://34.93.41.224/UpdateFoodItemServedEmployee.php";
+	public static final String RESTAURANT_LIST_CUSTOMER = "http://34.93.41.224/RestaurantListCustomer.php";
+	public static final String RESTAURANT_OPEN_CLOSE_STATUS = "http://34.93.41.224/RestaurantOpenCloseStatus.php";
+    public static final String RESTAURANT_OPEN_CLOSE = "http://34.93.41.224/RestaurantOpenCloseAdmin.php";
 
     public DatabaseHandler(String link, Context context) {
         this.link = link;
@@ -87,7 +103,7 @@ public abstract class DatabaseHandler {
         };
         /* To Prevent Double Post Request */
         request.setRetryPolicy(new DefaultRetryPolicy(
-                0,
+                500000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 

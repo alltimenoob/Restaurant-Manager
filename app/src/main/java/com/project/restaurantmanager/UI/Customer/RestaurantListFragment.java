@@ -15,7 +15,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.util.Base64;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,18 +25,18 @@ import android.widget.TextView;
 
 import com.project.restaurantmanager.Controller.DatabaseHandler;
 import com.project.restaurantmanager.Controller.RestuarantSQLite;
-import com.project.restaurantmanager.Data.FoodItems;
 import com.project.restaurantmanager.Data.Restaurant;
 import com.project.restaurantmanager.R;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+
+import static com.project.restaurantmanager.Controller.DatabaseHandler.RESTAURANT_LIST_CUSTOMER;
 
 
 public class RestaurantListFragment extends Fragment {
@@ -58,13 +57,19 @@ public class RestaurantListFragment extends Fragment {
 
         customAdapter = new CustomAdapter(getContext(),getFragmentManager());
 
-        restaurantList = db.getRestaurantData();
-
-        if(restaurantList.size()>0)
-        {
-            customAdapter.filter("");
-            mRestaurantListView.setAdapter(customAdapter);
+        try {
+            restaurantList = db.getRestaurantData();
         }
+        catch (Exception c)
+        {
+
+        }
+
+
+
+        customAdapter.filter("");
+        mRestaurantListView.setAdapter(customAdapter);
+
 
         SearchView searchView = view.findViewById(R.id.restaurantSearch);
         searchView.setQueryHint("Search Restaurant");
@@ -84,14 +89,14 @@ public class RestaurantListFragment extends Fragment {
         });
 
 
-        DatabaseHandler databaseHandler = new DatabaseHandler("http://34.93.41.224/RestaurantListCustomer.php",getContext()) {
+        DatabaseHandler databaseHandler = new DatabaseHandler(RESTAURANT_LIST_CUSTOMER,getContext()) {
             @Override
             public void writeCode(String response) throws Exception {
 
-                JSONArray jsonArray = new JSONArray(response);
-
                 SQLiteDatabase database = db.getWritableDatabase();
                 database.execSQL("DELETE FROM restaurants");
+
+                JSONArray jsonArray = new JSONArray(response);
 
                 for(int i=0;i<jsonArray.length();i++)
                 {
@@ -102,12 +107,15 @@ public class RestaurantListFragment extends Fragment {
                             jsonObject.getString("city"),
                             jsonObject.getString("address"),
                             jsonObject.getInt("contact"),
-                            jsonObject.getString("image"));
+                            jsonObject.getString("image"),
+                            jsonObject.getInt("roption"),
+                            jsonObject.getInt("starttime"),
+                            jsonObject.getInt("endtime"));
                 }
 
                 restaurantList = db.getRestaurantData();
                 customAdapter.filter("");
-                mRestaurantListView.setAdapter(customAdapter);
+                customAdapter.notifyDataSetChanged();
             }
             @Override
             public Map<String, String> params() {
@@ -177,7 +185,6 @@ public class RestaurantListFragment extends Fragment {
             name.setText(list.get(position).getName());
             city.setText(list.get(position).getCity());
 
-
             String imagebase64 =  list.get(position).getImage();
             byte[] imagedecoded = Base64.decode(imagebase64,Base64.DEFAULT);
             Bitmap decodedimage = BitmapFactory.decodeByteArray(imagedecoded,0,imagedecoded.length);
@@ -201,18 +208,27 @@ public class RestaurantListFragment extends Fragment {
 
                     if(id == FoodReservationFragment.mSelectedRid )
                     {
+                        FoodReservationFragment.mReservationOpt = restaurantList.get(position).getReservaiton();
+                        FoodReservationFragment.mEtime = restaurantList.get(position).getEndtime();
+                        FoodReservationFragment.mStime = restaurantList.get(position).getStarttime();
                         mFragmentManager.beginTransaction().addToBackStack("foodreservation").
                                 replace(R.id.customer_container,new FoodReservationFragment(),null).commit();
                     }
                     else if(FoodReservationFragment.mSelectedRid==0)
                     {
                         FoodReservationFragment.mSelectedRid=v.getId();
+                        FoodReservationFragment.mReservationOpt = restaurantList.get(position).getReservaiton();
+                        FoodReservationFragment.mEtime = restaurantList.get(position).getEndtime();
+                        FoodReservationFragment.mStime = restaurantList.get(position).getStarttime();
                         mFragmentManager.beginTransaction().addToBackStack("foodreservation").
                                 replace(R.id.customer_container,new FoodReservationFragment(),null).commit();
                     }
                     else if(!flag)
                     {
                         FoodReservationFragment.mSelectedRid=v.getId();
+                        FoodReservationFragment.mReservationOpt = restaurantList.get(position).getReservaiton();
+                        FoodReservationFragment.mEtime = restaurantList.get(position).getEndtime();
+                        FoodReservationFragment.mStime = restaurantList.get(position).getStarttime();
                         mFragmentManager.beginTransaction().addToBackStack("foodreservation").
                                 replace(R.id.customer_container,new FoodReservationFragment(),null).commit();
                     }
@@ -230,6 +246,9 @@ public class RestaurantListFragment extends Fragment {
                                 FoodItemListFragment.i=0;
 
                                 FoodReservationFragment.mSelectedRid=id;
+                                FoodReservationFragment.mStime=0;
+                                FoodReservationFragment.mEtime=0;
+                                FoodReservationFragment.mReservationOpt = restaurantList.get(position).getReservaiton();
                                 mFragmentManager.beginTransaction().addToBackStack("foodreservation").
                                         replace(R.id.customer_container,new FoodReservationFragment(),null).commit();
                             }

@@ -7,14 +7,29 @@ public class Restaurant {
     String contact;
     String rid;
     String image;
+    int reservaiton;
+    int starttime;
+    int endtime;
 
-    public Restaurant(String name, String city, String address, String contact, String rid, String image) {
+    public Restaurant(String name, String city, String address, String contact, String rid, String image,int starttime,int endtime) {
         this.name = name;
         this.city = city;
         this.address = address;
         this.contact = contact;
         this.rid = rid;
         this.image = image;
+    }
+
+    public Restaurant(String name, String city, String address, String contact, String rid, String image, int reservaiton, int starttime, int endtime) {
+        this.name = name;
+        this.city = city;
+        this.address = address;
+        this.contact = contact;
+        this.rid = rid;
+        this.image = image;
+        this.reservaiton = reservaiton;
+        this.starttime = starttime;
+        this.endtime = endtime;
     }
 
     public String getImage() {
@@ -63,5 +78,29 @@ public class Restaurant {
 
     public void setRid(String rid) {
         this.rid = rid;
+    }
+
+    public int getReservaiton() {
+        return reservaiton;
+    }
+
+    public void setReservaiton(int reservaiton) {
+        this.reservaiton = reservaiton;
+    }
+
+    public int getStarttime() {
+        return starttime;
+    }
+
+    public void setStarttime(int starttime) {
+        this.starttime = starttime;
+    }
+
+    public int getEndtime() {
+        return endtime;
+    }
+
+    public void setEndtime(int endtime) {
+        this.endtime = endtime;
     }
 }

@@ -22,6 +22,8 @@ import java.util.List;
 
 public class FoodReservationFragment extends Fragment {
     public static int mSelectedRid;
+    public static int mReservationOpt;
+    public static int mStime,mEtime;
     TextView foodTextView,reservationTextView;
     @Nullable
     @Override
@@ -32,6 +34,9 @@ public class FoodReservationFragment extends Fragment {
 
         foodTextView = view.findViewById(R.id.foodreservationFoodLabel);
         reservationTextView = view.findViewById(R.id.foodreservationReservationLabel);
+
+        reservationTextView.setVisibility(View.INVISIBLE);
+
 
         foodTextView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,7 +56,11 @@ public class FoodReservationFragment extends Fragment {
 
         CustomAdapter customAdapter = new CustomAdapter(getChildFragmentManager());
         customAdapter.addFragment(new FoodItemListFragment(),"food");
-        customAdapter.addFragment(new ReservationFragment(),"reservation");
+        if(mReservationOpt!=0) {
+            customAdapter.addFragment(new ReservationFragment(), "reservation");
+            reservationTextView.setVisibility(View.VISIBLE);
+        }
+
 
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override

@@ -1,6 +1,8 @@
 package com.project.restaurantmanager.UI.Employee;
 
 import android.annotation.SuppressLint;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -34,7 +36,7 @@ public class account_fragment extends Fragment {
     @Nullable
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.employee_account_fragment,container,false);
 
 
@@ -67,7 +69,9 @@ public class account_fragment extends Fragment {
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         getActivity().startActivity(intent);
                         dashboard_fragment.tno=0;
-                        FirebaseMessageService.removeToken("employee",sharedPreferencesHandler.getId());
+                        FirebaseMessageService.removeTopic("employee",sharedPreferencesHandler.getId());
+                        NotificationManager nMgr = (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
+                        nMgr.cancelAll();
                         /*To Prevent Unauthorized Login*/
                         getActivity().finish();
                         break;

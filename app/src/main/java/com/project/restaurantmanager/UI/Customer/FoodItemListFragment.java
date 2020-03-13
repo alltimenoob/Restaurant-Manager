@@ -72,7 +72,7 @@ public class FoodItemListFragment extends Fragment {
         mFoodListView.setAdapter(customAdapter);
 
 
-        DatabaseHandler databaseHandler = new DatabaseHandler(DatabaseHandler.getitems_link, getContext()) {
+        DatabaseHandler databaseHandler = new DatabaseHandler(DatabaseHandler.FOOD_ITEMLIST_CUSTOMER, getContext()) {
             @Override
             public void writeCode(String response) throws JSONException {
                 JSONArray jsonArray = new JSONArray(response);
@@ -91,6 +91,7 @@ public class FoodItemListFragment extends Fragment {
                 }
 
                 foodItemsList = db.getFoodData(FoodReservationFragment.mSelectedRid);
+                customAdapter.filter("");
                 customAdapter.notifyDataSetChanged();
             }
             @Override
@@ -174,13 +175,14 @@ public class FoodItemListFragment extends Fragment {
                     else
                     {
                         mAddButton.setText("ADD");
-                        mAddButton.setClickable(true);
+                        mAddButton.setEnabled(true);
                     }
                 }
                 catch (IndexOutOfBoundsException ob)
                 {
                     buttonflag.add(position, false);
                     mAddButton.setText("ADD");
+                    mAddButton.setEnabled(true);
                 }
 
                 mImageView.setImageBitmap(getImage(mFoodItems));
@@ -200,7 +202,7 @@ public class FoodItemListFragment extends Fragment {
                             }
                             else
                             {
-                                mAddButton.setClickable(false);
+                                mAddButton.setEnabled(false);
 
                                 buttonflag.set(position,true);
 

@@ -3,6 +3,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginBottom="70dp"
     android:background="@color/colorWhite"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
@@ -22,11 +23,24 @@
 
     <ListView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="70dp"
+        android:layout_height="wrap_content"
         app:fontFamily="sans-serif-condensed-light"
         android:fontFamily="sans-serif-condensed-light"
         android:id="@+id/admin_acc_list"
+        android:layout_marginBottom="50dp"
         android:layout_below="@+id/admin_acc_name_text"/>
+
+    <ToggleButton
+        android:id="@+id/admin_acc_toggle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_shape"
+        android:textColor="@color/colorWhite"
+        android:layout_margin="25dp"
+        android:textOff="Closed"
+        android:textOn="Opened"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+       />
 
 </RelativeLayout>

@@ -39,7 +39,7 @@ public class manage_address extends Fragment {
                 uaddress = address.getText().toString();
                 MainActivity.sharedPreferences.setAddress(uaddress);
 
-                DatabaseHandler databaseHandler = new DatabaseHandler(DatabaseHandler.updateaddress_link,getContext()) {
+                DatabaseHandler databaseHandler = new DatabaseHandler(DatabaseHandler.UPDATE_ADDRESS_CUSTOMER_EMPLOYEE,getContext()) {
                     @Override
                     public void writeCode(String response) throws JSONException {
                         Toast.makeText(getContext(),response,Toast.LENGTH_SHORT).show();

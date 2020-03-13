@@ -3,8 +3,6 @@ package com.project.restaurantmanager.UI.Admin.AdminToolsFragment;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
@@ -28,7 +26,6 @@ import com.project.restaurantmanager.Model.AdminActivity;
 import com.project.restaurantmanager.R;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -36,6 +33,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+
+import static com.project.restaurantmanager.Controller.DatabaseHandler.DELETE_TABLE_ADMIN;
+import static com.project.restaurantmanager.Controller.DatabaseHandler.TABLE_LIST_ADMIN_EMPLOYEE;
 
 public class manage_table extends Fragment {
     private View view;
@@ -82,7 +82,7 @@ public class manage_table extends Fragment {
         capacityList = new ArrayList<>();
         tablenoList = new ArrayList<>();
 
-        DatabaseHandler handler = new DatabaseHandler("http://34.93.41.224/getTables.php", getContext()) {
+        DatabaseHandler handler = new DatabaseHandler(TABLE_LIST_ADMIN_EMPLOYEE, getContext()) {
             @Override
             public void writeCode(String response) throws Exception {
                 JSONArray array = new JSONArray(response);
@@ -173,7 +173,7 @@ public class manage_table extends Fragment {
                 builder.setPositiveButton("Yes",new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        DatabaseHandler databaseHandler = new DatabaseHandler("http://34.93.41.224/delete_table.php",getContext()) {
+                        DatabaseHandler databaseHandler = new DatabaseHandler(DELETE_TABLE_ADMIN,getContext()) {
                             @Override
                             public void writeCode(String response) throws Exception {
                                 Toast.makeText(getContext(),response.trim(), Toast.LENGTH_SHORT).show();

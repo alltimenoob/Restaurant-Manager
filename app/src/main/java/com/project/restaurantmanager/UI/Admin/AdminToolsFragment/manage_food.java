@@ -3,58 +3,42 @@ package com.project.restaurantmanager.UI.Admin.AdminToolsFragment;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Typeface;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.util.Base64;
-import android.util.Log;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.graphics.drawable.RoundedBitmapDrawable;
-import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 import androidx.fragment.app.Fragment;
 
-import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
-import com.google.gson.Gson;
 import com.project.restaurantmanager.Controller.DatabaseHandler;
 import com.project.restaurantmanager.Controller.FoodSQLite;
-import com.project.restaurantmanager.Controller.SharedPreferencesHandler;
 import com.project.restaurantmanager.Data.FoodItems;
 import com.project.restaurantmanager.Model.AdminActivity;
-import com.project.restaurantmanager.Model.EmployeeActivity;
-import com.project.restaurantmanager.Model.MainActivity;
 import com.project.restaurantmanager.R;
-import com.project.restaurantmanager.UI.Customer.FoodReservationFragment;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.project.restaurantmanager.UI.Employee.dashboard_fragment.tno;
+import static com.project.restaurantmanager.Controller.DatabaseHandler.DELETE_FOOD_ITEM_ADMIN;
+import static com.project.restaurantmanager.Controller.DatabaseHandler.FOOD_ITEMLIST_CUSTOMER;
 
 public class manage_food extends Fragment {
     private View view;
@@ -108,7 +92,7 @@ public class manage_food extends Fragment {
 
     void getFoodItems(final CustomAdapter customAdapter)
     {
-        DatabaseHandler handler = new DatabaseHandler(DatabaseHandler.getitems_link, getContext()) {
+        DatabaseHandler handler = new DatabaseHandler(FOOD_ITEMLIST_CUSTOMER, getContext()) {
             @Override
             public void writeCode(String response) throws JSONException {
                 foodItemsList.clear();
@@ -188,7 +172,7 @@ public class manage_food extends Fragment {
                         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                DatabaseHandler databaseHandler = new DatabaseHandler("http://34.93.41.224/delete_item.php", getContext()) {
+                                DatabaseHandler databaseHandler = new DatabaseHandler(DELETE_FOOD_ITEM_ADMIN, getContext()) {
                                     @Override
                                     public void writeCode(String response) throws Exception {
                                         Toast.makeText(getContext(), response.trim(), Toast.LENGTH_SHORT).show();

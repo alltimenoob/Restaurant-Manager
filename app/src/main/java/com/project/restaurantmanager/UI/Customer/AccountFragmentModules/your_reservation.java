@@ -14,7 +14,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.project.restaurantmanager.Controller.DatabaseHandler;
-import com.project.restaurantmanager.Data.Orders;
 import com.project.restaurantmanager.Data.Reservation;
 import com.project.restaurantmanager.Model.MainActivity;
 import com.project.restaurantmanager.R;
@@ -37,7 +36,7 @@ public class your_reservation extends Fragment {
 
         final ListView listView = view.findViewById(R.id.cust_acc_yourreservation_listView);
 
-        DatabaseHandler handler = new DatabaseHandler(DatabaseHandler.yourreservation_link,getContext()) {
+        DatabaseHandler handler = new DatabaseHandler(DatabaseHandler.RESERVATION_LIST_CUSTOMER,getContext()) {
             @Override
             public void writeCode(String response) throws JSONException {
                 JSONArray array = new JSONArray(response);
@@ -45,7 +44,7 @@ public class your_reservation extends Fragment {
                     JSONObject object = array.getJSONObject(i);
                     reservations.add(new Reservation(object.getString("rdate"),object.getString("starttime"),
                             object.getString("endtime"),object.getString("guest")
-                            ,object.getString("deposit"),object.getString("tno")));
+                            ,object.getString("deposit"),object.getString("tno"),object.getString("rname")));
                 }
                 CustomAdapter arrayAdapter = new CustomAdapter();
                 listView.setAdapter(arrayAdapter);
@@ -90,6 +89,7 @@ public class your_reservation extends Fragment {
             TextView endtime = view.findViewById(R.id.listview_yourreservation_endtime);
             TextView guest = view.findViewById(R.id.listview_yourreservation_guests);
             TextView tno = view.findViewById(R.id.listview_yourreservation_tno);
+            TextView rname = view.findViewById(R.id.listview_yourreservation_restaurant);
 
             rdate.setText("Date : "+reservations.get(position).getRdate());
             deposit.setText("Deposit : "+"₹ "+(int)Double.parseDouble(reservations.get(position).getDeposit()));
@@ -97,6 +97,7 @@ public class your_reservation extends Fragment {
             endtime.setText("End Time : "+reservations.get(position).getEndtime());
             guest.setText("Guests : "+reservations.get(position).getGuests());
             tno.setText("Table No : "+reservations.get(position).getTno());
+            rname.setText("Restaurant : "+reservations.get(position).getRestaurant());
 
             return view;
         }

@@ -22,6 +22,8 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.project.restaurantmanager.Controller.DatabaseHandler.INSERT_TABLE_ADMIN;
+
 public class add_table_fragment extends Fragment {
     View view;
     @Nullable
@@ -36,7 +38,7 @@ public class add_table_fragment extends Fragment {
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatabaseHandler databaseHandler = new DatabaseHandler("http://34.93.41.224/admin_insert_table.php",getContext()) {
+                DatabaseHandler databaseHandler = new DatabaseHandler(INSERT_TABLE_ADMIN,getContext()) {
                     @Override
                     public void writeCode(String response) throws  Exception {
                         JSONObject object = new JSONObject(response);

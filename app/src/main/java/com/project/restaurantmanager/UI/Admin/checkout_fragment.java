@@ -22,7 +22,6 @@ import com.project.restaurantmanager.Controller.DatabaseHandler;
 import com.project.restaurantmanager.Model.AdminActivity;
 import com.project.restaurantmanager.R;
 import com.project.restaurantmanager.UI.Admin.CheckOutModules.invoice_fragment;
-import com.project.restaurantmanager.UI.Customer.FoodReservationFragment;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -32,6 +31,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.project.restaurantmanager.Controller.DatabaseHandler.OFFLINE_ORDER_LIST_ADMIN;
 
 
 public class checkout_fragment extends Fragment {
@@ -75,7 +76,7 @@ public class checkout_fragment extends Fragment {
         table_numbers.clear();
         order_numbers.clear();
 
-        DatabaseHandler handler = new DatabaseHandler("http://34.93.41.224/getAdminOrders.php", getContext()) {
+        DatabaseHandler handler = new DatabaseHandler(OFFLINE_ORDER_LIST_ADMIN, getContext()) {
             @Override
             public void writeCode(String response) throws Exception {
                 JSONArray array = new JSONArray(response);
@@ -128,7 +129,7 @@ public class checkout_fragment extends Fragment {
         items.setLineSpacing((float) 1.0, (float) 1.2);
 
         final int id = items.getId();
-        DatabaseHandler handler = new DatabaseHandler(DatabaseHandler.admin_getorders_link,getContext()) {
+        DatabaseHandler handler = new DatabaseHandler(DatabaseHandler.OFFLINE_ORDER_ITEMLIST_ADMIN,getContext()) {
             @Override
             public void writeCode(String response) throws JSONException {
                 Log.d("LUND", "Array : "+response);

@@ -33,7 +33,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.project.restaurantmanager.Controller.DatabaseHandler.admin_getEmployeeLink;
+import static com.project.restaurantmanager.Controller.DatabaseHandler.DELETE_EMPLOYEE_ADMIN;
+import static com.project.restaurantmanager.Controller.DatabaseHandler.EMPLOYEE_LIST_ADMIN;
 
 public class manage_employee extends Fragment {
     private View view;
@@ -88,7 +89,7 @@ public class manage_employee extends Fragment {
         joindateList = new ArrayList<>();
         contactList = new ArrayList<>();
 
-        DatabaseHandler handler = new DatabaseHandler(admin_getEmployeeLink,getContext()) {
+        DatabaseHandler handler = new DatabaseHandler(EMPLOYEE_LIST_ADMIN,getContext()) {
             @Override
             public void writeCode(String response) throws Exception {
                 RelativeLayout addemployee = view.findViewById(R.id.admin_manage_employee_relativelayout);
@@ -220,7 +221,7 @@ public class manage_employee extends Fragment {
                 builder.setPositiveButton("Yes",new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        DatabaseHandler databaseHandler = new DatabaseHandler("http://34.93.41.224/delete_employee.php",getContext()) {
+                        DatabaseHandler databaseHandler = new DatabaseHandler(DELETE_EMPLOYEE_ADMIN,getContext()) {
                             @Override
                             public void writeCode(String response) throws Exception {
                                 Toast.makeText(getContext(),response, Toast.LENGTH_SHORT).show();

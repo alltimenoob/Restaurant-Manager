@@ -8,19 +8,13 @@ import android.annotation.SuppressLint;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.project.restaurantmanager.Controller.DatabaseHandler;
-import com.project.restaurantmanager.Data.FoodItems;
 import com.project.restaurantmanager.R;
 import com.project.restaurantmanager.UI.Customer.RestaurantListFragment;
 import com.project.restaurantmanager.UI.Customer.FoodItemListFragment;
@@ -36,6 +30,7 @@ import org.json.JSONException;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.project.restaurantmanager.Controller.DatabaseHandler.SEND_NOTIFICATION;
 import static com.project.restaurantmanager.UI.Customer.CartFragment.map;
 import static com.project.restaurantmanager.UI.Customer.CartFragment.mapDB;
 import static com.project.restaurantmanager.UI.Customer.ReservationFragment.GuestsDB;
@@ -61,6 +56,7 @@ public class CustomerActivity extends AppCompatActivity  implements PaymentResul
         }
 
         fragmentManager=getSupportFragmentManager();
+
         fragmentManager.beginTransaction().add(R.id.customer_container,new RestaurantListFragment(),null).commit();
 
         bottomNavigationView = findViewById(R.id.baseactivity_bottombar);
@@ -120,16 +116,11 @@ public class CustomerActivity extends AppCompatActivity  implements PaymentResul
     public void onPaymentSuccess(String s) {
 
         if(MainActivity.paymentMethod!=null&&MainActivity.paymentMethod.equals("res")) {
-            DatabaseHandler databaseHandlerForRes = new DatabaseHandler(DatabaseHandler.afterpayment_link, getApplicationContext()) {
+            DatabaseHandler databaseHandlerForRes = new DatabaseHandler(DatabaseHandler.INSERT_NEW_RESERVATION_CUSTOMER, getApplicationContext()) {
                 @Override
                 public void writeCode(String response) throws JSONException {
                     Log.d("ffff", "writeCode: "+response);
                     Toast.makeText(getApplicationContext(), response.trim(), Toast.LENGTH_SHORT).show();
-                    GuestsDB = null;
-                    dateDB = null;
-                    Recyclerviewadapter_Table.endTimeDB=null;
-                    Recyclerviewadapter_Table.startTimeDB=null;
-                    ReservationFragment.tableNoDB = null;
                 }
 
                 @Override
@@ -149,7 +140,7 @@ public class CustomerActivity extends AppCompatActivity  implements PaymentResul
 
         }else if(MainActivity.paymentMethod!=null&&MainActivity.paymentMethod.equals("cart")) {
             FoodItemListFragment.i=0;
-            final DatabaseHandler databaseHandlerForCart = new DatabaseHandler(DatabaseHandler.placeorder_link, getApplicationContext()) {
+            final DatabaseHandler databaseHandlerForCart = new DatabaseHandler(DatabaseHandler.INSERT_NEW_ORDER_CUSTOMER, getApplicationContext()) {
                 @Override
                 public void writeCode(String response) throws JSONException {
                     Toast.makeText(getApplicationContext(), response.trim(), Toast.LENGTH_SHORT).show();
@@ -162,9 +153,11 @@ public class CustomerActivity extends AppCompatActivity  implements PaymentResul
             };
 
             databaseHandlerForCart.execute();
-
+            CartFragment.cartEmptyimageView.setVisibility(View.VISIBLE);
+            CartFragment.cartEmptytextView.setVisibility(View.VISIBLE);
             sendNotification();
             CartFragment.quantity.clear();
+            FoodItemListFragment.i=0;
             FoodItemListFragment.nameForCart.clear();
             FoodItemListFragment.priceForCart.clear();
             map.clear();
@@ -188,33 +181,19 @@ public class CustomerActivity extends AppCompatActivity  implements PaymentResul
 
     private void sendNotification()
     {
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users").child("admin");
-        reference.child(mapDB.get("Rid")).addListenerForSingleValueEvent(new ValueEventListener() {
+        DatabaseHandler handler = new DatabaseHandler(SEND_NOTIFICATION,getApplicationContext()) {
             @Override
-            public void onDataChange(@NonNull  DataSnapshot dataSnapshot) {
-                final String token = dataSnapshot.getValue()+"";
+            public void writeCode(String response) throws JSONException, InterruptedException, Exception { }
 
-                Log.d("ffff", "onDataChange: "+token);
-
-                DatabaseHandler handler = new DatabaseHandler("http://34.93.41.224/sendNoti.php",getApplicationContext()) {
-                    @Override
-                    public void writeCode(String response) throws JSONException, InterruptedException, Exception { }
-
-                    @Override
-                    public Map<String, String> params() {
-                        Map<String,String> map = new HashMap<>();
-                        map.put("message","You got new order for Home delievery...");
-                        map.put("token",token);
-                        return map;
-                    }
-                };
-                handler.execute();
-
-            }
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
+            public Map<String, String> params() {
+                Map<String,String> map = new HashMap<>();
+                map.put("message","You got new order for Home delievery...");
+                map.put("topic","admin"+mapDB.get("Rid"));
+                return map;
             }
-        });
+        };
+        handler.execute();
+
     }
 }

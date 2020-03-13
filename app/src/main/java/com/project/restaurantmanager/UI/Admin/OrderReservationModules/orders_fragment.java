@@ -11,14 +11,14 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 
 import com.project.restaurantmanager.Controller.DatabaseHandler;
 import com.project.restaurantmanager.Data.Orders;
+import com.project.restaurantmanager.Data.Restaurant;
 import com.project.restaurantmanager.Model.AdminActivity;
-import com.project.restaurantmanager.Model.MainActivity;
 import com.project.restaurantmanager.R;
-import com.project.restaurantmanager.UI.Customer.AccountFragmentModules.your_orders;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,6 +27,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class orders_fragment extends Fragment {
@@ -41,7 +42,24 @@ public class orders_fragment extends Fragment {
 
         orderList = view.findViewById(R.id.admin_order_list);
 
-        DatabaseHandler handler = new DatabaseHandler(DatabaseHandler.admin_allorders,getContext()) {
+        final CustomAdapter customAdapter = new CustomAdapter();
+
+        androidx.appcompat.widget.SearchView searchView = view.findViewById(R.id.admin_reservation_search);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                customAdapter.filter(newText);
+                return true;
+            }
+        });
+
+        DatabaseHandler handler = new DatabaseHandler(DatabaseHandler.ORDER_LIST_ADMIN,getContext()) {
             @Override
             public void writeCode(String response) throws JSONException {
                 JSONArray array = new JSONArray(response);
@@ -59,9 +77,9 @@ public class orders_fragment extends Fragment {
                         qty[k] = items.getString("qty");
                     }
                     orders.add(new Orders(object.getString("date"),object.getString("totalamount"),item,qty));
-                    Log.d("HANUMAN", "writeCode: "+orders.get(i).getAmount());
                 }
-                orderList.setAdapter(new CustomAdapter());
+                customAdapter.filter("");
+                orderList.setAdapter(customAdapter);
             }
             @Override
             public Map<String, String> params() {
@@ -76,10 +94,10 @@ public class orders_fragment extends Fragment {
     }
     class CustomAdapter extends BaseAdapter
     {
-
+        List<Orders> list = new ArrayList<>();
         @Override
         public int getCount() {
-            return orders.size();
+            return list.size();
         }
 
         @Override
@@ -101,11 +119,11 @@ public class orders_fragment extends Fragment {
             TextView items = convertView.findViewById(R.id.listview_allorders_items);
 
 
-            amount.setText("₹ "+(int)Double.parseDouble(orders.get(position).getAmount()));
-            date.setText("Date : "+orders.get(position).getDate());
+            amount.setText("₹ "+(int)Double.parseDouble(list.get(position).getAmount()));
+            date.setText("Date : "+list.get(position).getDate());
 
-            String[] strings = orders.get(position).getItems();
-            String[] strings1 = orders.get(position).getQuantity();
+            String[] strings = list.get(position).getItems();
+            String[] strings1 = list.get(position).getQuantity();
 
             for(int i=0;i<strings.length;i++)
             {
@@ -120,5 +138,21 @@ public class orders_fragment extends Fragment {
 
             return convertView;
         }
+
+        public void filter(String charText){
+            list.clear();
+            if (charText.length()==0){
+                list.addAll(orders);
+            }
+            else {
+                for (Orders model : orders){
+                    if (model.getDate().contains(charText)){
+                        list.add(model);
+                    }
+                }
+            }
+            notifyDataSetChanged();
+        }
+
     }
 }

@@ -17,15 +17,9 @@ import android.widget.Toast;
 
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.project.restaurantmanager.Controller.FirebaseMessageService;
 import com.project.restaurantmanager.Controller.SharedPreferencesHandler;
 import com.project.restaurantmanager.R;
+import com.project.restaurantmanager.UI.Admin.AdminToolsFragment.online_order;
 import com.project.restaurantmanager.UI.Admin.account_fragment;
 import com.project.restaurantmanager.UI.Admin.checkout_fragment;
 import com.project.restaurantmanager.UI.Admin.order_reservation_fragment;
@@ -45,7 +39,15 @@ public class AdminActivity extends AppCompatActivity {
 
         fragmentManager = getSupportFragmentManager();
 
-        fragmentManager.beginTransaction().add(R.id.admin_container,new tools_fragment(),null).commit();
+        if (getIntent().getExtras() != null)
+        {
+            fragmentManager.beginTransaction().add(R.id.admin_container,new online_order(),null).commit();
+        }
+        else
+        {
+            fragmentManager.beginTransaction().add(R.id.admin_container,new checkout_fragment(),null).commit();
+        }
+
 
         bottomNavigationView = findViewById(R.id.adminactivity_bottombar);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -72,6 +74,7 @@ public class AdminActivity extends AppCompatActivity {
 
         });
     }
+
     public void onBackPressed() {
 
         int count = getSupportFragmentManager().getBackStackEntryCount();

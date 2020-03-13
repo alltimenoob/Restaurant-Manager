@@ -49,7 +49,7 @@ public class manage_account_fragment extends Fragment {
                 MainActivity.sharedPreferences.setMobile(umobile);
 
 
-                DatabaseHandler databaseHandler = new DatabaseHandler(DatabaseHandler.manageaccount_link,getContext()) {
+                DatabaseHandler databaseHandler = new DatabaseHandler(DatabaseHandler.UPDATE_ACCOUNT_SETTING_EMPLOYEE_CUSTOMER,getContext()) {
                     @Override
                     public void writeCode(String response) throws JSONException {
                         Toast.makeText(getContext(),response,Toast.LENGTH_SHORT).show();

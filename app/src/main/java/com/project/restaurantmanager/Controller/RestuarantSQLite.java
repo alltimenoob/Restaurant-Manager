@@ -22,7 +22,7 @@ public class RestuarantSQLite extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE "+DB+"(rid integer primary key,name text,city text,address text,contact integer,image text)");
+        db.execSQL("CREATE TABLE "+DB+"(rid integer primary key,name text,city text,address text,contact integer,image text,roption integer,starttime integer,endtime integer)");
     }
 
     @Override
@@ -31,7 +31,7 @@ public class RestuarantSQLite extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public boolean insertRestaurantData(int rid,String name,String city,String address,int contact, String image)
+    public boolean insertRestaurantData(int rid,String name,String city,String address,int contact, String image,int ropt,int starttime,int endtime)
     {SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues contentValues = new ContentValues();
@@ -41,6 +41,9 @@ public class RestuarantSQLite extends SQLiteOpenHelper {
         contentValues.put("address", address);
         contentValues.put("contact", contact);
         contentValues.put("image", image);
+        contentValues.put("roption",ropt);
+        contentValues.put("starttime",starttime);
+        contentValues.put("endtime",endtime);
 
         db.insert(DB, null, contentValues);
         db.close();
@@ -65,7 +68,10 @@ public class RestuarantSQLite extends SQLiteOpenHelper {
                         cursor.getString(3),
                         cursor.getString(4),
                         cursor.getString(0),
-                        cursor.getString(5));
+                        cursor.getString(5),
+                        cursor.getInt(6),
+                        cursor.getInt(7),
+                        cursor.getInt(8));
 
                 restaurantList.add(restaurant);
             }

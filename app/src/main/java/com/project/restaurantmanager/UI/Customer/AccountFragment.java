@@ -1,6 +1,8 @@
 package com.project.restaurantmanager.UI.Customer;
 
 import android.annotation.SuppressLint;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -71,7 +73,9 @@ public class AccountFragment extends Fragment {
                         Intent intent = new Intent(getActivity().getApplicationContext(), MainActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         getActivity().startActivity(intent);
-                        FirebaseMessageService.removeToken("customer",sharedPreferencesHandler.getId());
+                        FirebaseMessageService.removeTopic("customer",sharedPreferencesHandler.getId());
+                        NotificationManager nMgr = (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
+                        nMgr.cancelAll();
                         /*To Prevent Unauthorized Login*/
                         getActivity().finish();
                         break;

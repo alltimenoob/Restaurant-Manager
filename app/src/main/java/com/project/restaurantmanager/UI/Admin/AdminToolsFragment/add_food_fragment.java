@@ -1,24 +1,17 @@
 package com.project.restaurantmanager.UI.Admin.AdminToolsFragment;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
-import android.icu.text.UnicodeSetSpanner;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Base64;
-import android.util.Half;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -29,18 +22,13 @@ import com.project.restaurantmanager.Controller.DatabaseHandler;
 import com.project.restaurantmanager.Model.AdminActivity;
 import com.project.restaurantmanager.R;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.nio.ByteBuffer;
 import java.util.HashMap;
 import java.util.Map;
 
-import static android.content.Intent.ACTION_OPEN_DOCUMENT;
+import static com.project.restaurantmanager.Controller.DatabaseHandler.INSERT_FOODITEM_ADMIN;
 
 public class add_food_fragment extends Fragment {
     View view;
@@ -75,7 +63,7 @@ public class add_food_fragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                DatabaseHandler handler = new DatabaseHandler("http://34.93.41.224/admin_insert_item.php",getContext()) {
+                DatabaseHandler handler = new DatabaseHandler(INSERT_FOODITEM_ADMIN,getContext()) {
                     @Override
                     public void writeCode(String response) throws  Exception {
                         JSONObject object = new JSONObject(response);
@@ -121,12 +109,12 @@ public class add_food_fragment extends Fragment {
                 BitmapDrawable drawable = (BitmapDrawable) imageView.getDrawable();
 
                 Bitmap image = drawable.getBitmap();
-                image = Bitmap.createScaledBitmap(image,512,512,false);
+                image = Bitmap.createScaledBitmap(image,256,256,false);
 
                 imageView.setImageBitmap(image);
 
                 ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-                image.compress(Bitmap.CompressFormat.PNG,65,outputStream);
+                image.compress(Bitmap.CompressFormat.PNG,100,outputStream);
                 byte[] arry = outputStream.toByteArray();
 
                 encoded = Base64.encodeToString(arry,0,arry.length,Base64.DEFAULT);

@@ -5,41 +5,29 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ProgressBar;
-import android.widget.ScrollView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.gson.JsonObject;
 import com.project.restaurantmanager.Controller.DatabaseHandler;
 import com.project.restaurantmanager.Data.Constants;
-import com.project.restaurantmanager.Model.MainActivity;
 import com.project.restaurantmanager.R;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.HttpURLConnection;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import static com.project.restaurantmanager.Controller.DatabaseHandler.login_link;
-import static com.project.restaurantmanager.Controller.DatabaseHandler.welcome_link;
+import static com.project.restaurantmanager.Controller.DatabaseHandler.LOGIN;
+import static com.project.restaurantmanager.Controller.DatabaseHandler.WELCOME_MAIL_CUSTOMER;
 
 public class register_fragment extends Fragment {
 
@@ -64,33 +52,42 @@ public class register_fragment extends Fragment {
                 progressBar.setVisibility(View.VISIBLE);
                 progressBar.setIndeterminate(true);
 
-                DatabaseHandler databaseHandler = new DatabaseHandler("http://34.93.41.224/signup.php",getContext()) {
+                DatabaseHandler databaseHandler = new DatabaseHandler(DatabaseHandler.REGISTER_CUSTOMER,getContext()) {
                     @Override
                     public void writeCode(String response) throws Exception {
                         progressBar.setVisibility(View.GONE);
                         progressBar.setIndeterminate(false);
-                        Thread.sleep(1000);
+                        Thread.sleep(100);
+                        Log.d("log1", "writeCode: "+response);
 
-                        if(new JSONObject(response).getInt("error")==0)
-                        {
-                            Toast.makeText(getContext(), Constants.getError0, Toast.LENGTH_SHORT).show();
-                        }
-                        else if(new JSONObject(response).getInt("error")==1)
+                        if(new JSONObject(response).getInt("error")==1)
                         {
                             Toast.makeText(getContext(), Constants.getError1, Toast.LENGTH_SHORT).show();
                             getActivity().getSupportFragmentManager().popBackStack();
+                            email.setText("");username.setText("");name.setText("");
+                            password.setText("");mobile.setText("");address.setText("");
                         }
                         else if(new JSONObject(response).getInt("error")==2)
                         {
                             Toast.makeText(getContext(), Constants.getError2, Toast.LENGTH_SHORT).show();
+                            email.setText("");username.setText("");name.setText("");
+                            password.setText("");mobile.setText("");address.setText("");
                         }
-                        else if(new JSONObject(response).getInt("error")==2)
+                        else if(new JSONObject(response).getInt("error")==3)
                         {
                             Toast.makeText(getContext(), Constants.getError3, Toast.LENGTH_SHORT).show();
+                            username.setText("");
                         }
-
-                        username.setText("");name.setText("");email.setText("");
-                        password.setText("");mobile.setText("");address.setText("");
+                        else if(new JSONObject(response).getInt("error")==4)
+                        {
+                            Toast.makeText(getContext(), Constants.getError4, Toast.LENGTH_SHORT).show();
+                            email.setText("");
+                        }
+                        else if(new JSONObject(response).getInt("error")==5)
+                        {
+                            Toast.makeText(getContext(), Constants.getError5, Toast.LENGTH_SHORT).show();
+                            email.setText("");
+                        }
                     }
                     @Override
                     public Map<String, String> params() {
@@ -104,7 +101,28 @@ public class register_fragment extends Fragment {
                         return map;
                     }
                 };
-                databaseHandler.execute();
+
+                List<String> values = new ArrayList<>();
+                values.add(username.getText().toString());
+                values.add(name.getText().toString());
+                values.add(email.getText().toString());
+                values.add(password.getText().toString());
+                values.add(mobile.getText().toString());
+                values.add(address.getText().toString());
+
+                if(values.contains(""))
+                {
+                    Toast.makeText(getContext(), Constants.getError0, Toast.LENGTH_SHORT).show();
+                    progressBar.setVisibility(View.GONE);
+                    progressBar.setIndeterminate(false);
+                }
+                else
+                {
+                    databaseHandler.execute();
+                    values.clear();
+                }
+
+
             }
         });
 

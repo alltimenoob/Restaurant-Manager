@@ -44,7 +44,7 @@ public class change_password extends Fragment {
 
                 if(passwordfirst.equals(passwordsecond)) {
 
-                    DatabaseHandler databaseHandler = new DatabaseHandler(DatabaseHandler.updatepassword_link,getContext()) {
+                    DatabaseHandler databaseHandler = new DatabaseHandler(DatabaseHandler.UPDATE_PASSWORD_CUSTOMER_EMPLOYEE,getContext()) {
                         @Override
                         public void writeCode(String response) throws JSONException {
                             response=response.trim();

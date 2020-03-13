@@ -1,6 +1,5 @@
 package com.project.restaurantmanager.UI.Customer;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -59,6 +58,8 @@ public class ReservationFragment extends Fragment {
                 .datesNumberOnScreen(5)
                 .build();
 
+        dateDB= String.format("%1$tY-%1$tm-%1$td",horizontalCalendar.getSelectedDate());
+
         horizontalCalendar.setCalendarListener(new HorizontalCalendarListener() {
             @SuppressLint("DefaultLocale")
             @Override
@@ -68,8 +69,8 @@ public class ReservationFragment extends Fragment {
             }
         });
 
-        for (int i = 11; i < 24; i++) {
-            timeList.add(i+":00");
+        for (int i = FoodReservationFragment.mStime; i <= FoodReservationFragment.mEtime; i++) {
+            timeList.add(String.format("%02d", i)+":00");
         }
 
         RecyclerView recyclerView = view.findViewById(R.id.cust_reservation_recyclerview);
@@ -109,7 +110,7 @@ public class ReservationFragment extends Fragment {
                     Toast.makeText(getContext(),"Time Reversal Is Not Possible",Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    DatabaseHandler databaseHandler = new DatabaseHandler(DatabaseHandler.reservation_link, getContext()) {
+                    DatabaseHandler databaseHandler = new DatabaseHandler(DatabaseHandler.INSERT_RESERVATION_CHECK_CUSTOMER, getContext()) {
                         @Override
                         public void writeCode(String response) throws JSONException {
                             if (response.equals("error") || response == null) {

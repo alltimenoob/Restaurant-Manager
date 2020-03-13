@@ -1,28 +1,39 @@
 package com.project.restaurantmanager.Model;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.Application;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
+import com.project.restaurantmanager.Controller.FirebaseMessageService;
 import com.project.restaurantmanager.Controller.SharedPreferencesHandler;
 import com.project.restaurantmanager.R;
 import com.project.restaurantmanager.UI.Base.base_fragment;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
     public static FragmentManager fragmentManager;
     public static boolean resetflag=false;/* For Toasting Password Reset (IMPORTANT)*/
     public static SharedPreferencesHandler sharedPreferences;
     public static String paymentMethod;
     public static Context context;
 
+    @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,14 +44,17 @@ public class MainActivity extends AppCompatActivity {
         sharedPreferences = new SharedPreferencesHandler(MainActivity.this);
         if (sharedPreferences.getFlag()&&sharedPreferences.getPost().equals("Customer")) {
             Intent intent = new Intent(MainActivity.this, CustomerActivity.class);
+            intent.putExtras(getIntent());
             MainActivity.this.startActivity(intent);
         }
          else if (sharedPreferences.getFlag()&&sharedPreferences.getPost().equals("Employee")) {
             Intent intent = new Intent(MainActivity.this, EmployeeActivity.class);
+            intent.putExtras(getIntent());
             MainActivity.this.startActivity(intent);
         }
          else if (sharedPreferences.getFlag()&&sharedPreferences.getPost().equals("Admin")) {
             Intent intent = new Intent(MainActivity.this, AdminActivity.class);
+            intent.putExtras(getIntent());
             MainActivity.this.startActivity(intent);
         }
          else {
@@ -69,4 +83,5 @@ public class MainActivity extends AppCompatActivity {
             super.onBackPressed();
         }
     }
+
 }

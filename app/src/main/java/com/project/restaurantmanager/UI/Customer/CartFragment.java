@@ -45,8 +45,8 @@ public class CartFragment extends Fragment {
     private Button placeOrder;//Order Button
 
     private ListView cartListView;
-    ImageView cartEmptyimageView;
-    TextView cartEmptytextView;
+    public  static ImageView cartEmptyimageView;
+    public static TextView cartEmptytextView;
 
     private int i;//For Main Foor Loop
 

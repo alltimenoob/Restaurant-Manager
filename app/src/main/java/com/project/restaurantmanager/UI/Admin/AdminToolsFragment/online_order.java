@@ -1,7 +1,6 @@
 package com.project.restaurantmanager.UI.Admin.AdminToolsFragment;
 
 import android.annotation.SuppressLint;
-import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -20,12 +19,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.google.android.material.card.MaterialCardView;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.project.restaurantmanager.Controller.DatabaseHandler;
 import com.project.restaurantmanager.Model.AdminActivity;
 import com.project.restaurantmanager.R;
@@ -35,13 +28,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.project.restaurantmanager.Controller.DatabaseHandler.admin_online_set_orderLink;
-import static com.project.restaurantmanager.UI.Customer.CartFragment.mapDB;
+import static com.project.restaurantmanager.Controller.DatabaseHandler.ACCEPT_ONLINE_ORDER_ADMIN;
+import static com.project.restaurantmanager.Controller.DatabaseHandler.SEND_NOTIFICATION;
 
 public class online_order extends Fragment {
     String addressString;
@@ -79,7 +71,7 @@ public class online_order extends Fragment {
     public void onResume() {
         super.onResume();
         layoutOuter.removeAllViews();
-        DatabaseHandler handler = new DatabaseHandler(DatabaseHandler.admin_onlineordLink, getContext()) {
+        DatabaseHandler handler = new DatabaseHandler(DatabaseHandler.ADMIN_ONLINE_ORDER_LINK, getContext()) {
             @Override
             public void writeCode(String response) throws Exception {
                 JSONArray jsonArray = new JSONArray(response);
@@ -186,7 +178,7 @@ public class online_order extends Fragment {
                 final TextView textView = view.findViewById(id+200);
                 RelativeLayout relativeLayout = view.findViewById(id);
                 layoutOuter.removeView(relativeLayout);
-                DatabaseHandler databaseHandler = new DatabaseHandler(admin_online_set_orderLink,getContext()) {
+                DatabaseHandler databaseHandler = new DatabaseHandler(ACCEPT_ONLINE_ORDER_ADMIN,getContext()) {
                     @Override
                     public void writeCode(String response) throws JSONException, InterruptedException, Exception {
                         Toast.makeText(getContext(),response,Toast.LENGTH_SHORT).show();
@@ -210,37 +202,25 @@ public class online_order extends Fragment {
         layoutOuter.addView(layoutInner, layoutForInner);
     }
 
-    private void sendNotification(String user,String  id)
+    private void sendNotification(final String user, final String  id)
     {
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users").child(user);
-        reference.child(id).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                final String token = dataSnapshot.getValue()+"";
 
-                Log.d("ffff", "onDataChange: "+token);
-
-                DatabaseHandler handler = new DatabaseHandler("http://34.93.41.224/sendNoti.php",getContext()) {
+        DatabaseHandler handler = new DatabaseHandler(SEND_NOTIFICATION,getContext()) {
                     @Override
-                    public void writeCode(String response) throws JSONException, InterruptedException, Exception { }
+                    public void writeCode(String response) throws JSONException, InterruptedException, Exception {
+                        Log.d("sendNotificaiton", "writeCode: "+response);
+                    }
 
                     @Override
                     public Map<String, String> params() {
                         Map<String,String> map = new HashMap<>();
                         map.put("message","Your order is out for delivery...");
-                        map.put("token",token);
+                        map.put("topic",user+id);
                         return map;
                     }
                 };
                 handler.execute();
 
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
     }
 }
 

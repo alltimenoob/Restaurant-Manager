@@ -23,6 +23,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.project.restaurantmanager.Controller.DatabaseHandler.UPDATE_TABLE_ADMIN;
 import static com.project.restaurantmanager.UI.Admin.AdminToolsFragment.manage_table.capacityformodify;
 import static com.project.restaurantmanager.UI.Admin.AdminToolsFragment.manage_table.tablenoformodify;
 
@@ -65,7 +66,7 @@ public class modfiy_table_fragment extends Fragment {
             @Override
             public void onClick(View v) {
                 modify.setEnabled(false);
-                DatabaseHandler databaseHandler = new DatabaseHandler("http://34.93.41.224/admin_modfiy_table_.php",getContext()) {
+                DatabaseHandler databaseHandler = new DatabaseHandler(UPDATE_TABLE_ADMIN,getContext()) {
                     @Override
                     public void writeCode(String response) throws Exception {
                         JSONObject object = new JSONObject(response);

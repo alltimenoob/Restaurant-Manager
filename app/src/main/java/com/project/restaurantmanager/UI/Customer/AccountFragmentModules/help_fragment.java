@@ -39,7 +39,7 @@ public class help_fragment extends Fragment {
                 str_query = query.getText().toString();
 
                 Toast.makeText(getContext(),"Sent!",Toast.LENGTH_SHORT).show();
-                DatabaseHandler databaseHandler = new DatabaseHandler(DatabaseHandler.contactus_link,getContext()) {
+                DatabaseHandler databaseHandler = new DatabaseHandler(DatabaseHandler.CONTACT_US,getContext()) {
                     @Override
                     public void writeCode(String response) throws JSONException {
                     }

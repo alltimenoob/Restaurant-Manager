@@ -1,7 +1,6 @@
 package com.project.restaurantmanager.UI.Base;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +16,6 @@ import com.project.restaurantmanager.Model.MainActivity;
 import com.project.restaurantmanager.R;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -46,7 +44,7 @@ public class resetpassword_fragment extends Fragment {
                     layout.setError("Enter Email");
                 }
                 else {
-                    DatabaseHandler databaseHandler = new DatabaseHandler(DatabaseHandler.otp_link, getContext()) {
+                    DatabaseHandler databaseHandler = new DatabaseHandler(DatabaseHandler.RESET_PASSWORD_CUSTOMER, getContext()) {
                         @Override
                         public void writeCode(String response) throws JSONException {
                             JSONObject object = new JSONObject(response);
@@ -87,7 +85,7 @@ public class resetpassword_fragment extends Fragment {
     }
     public void sendMail(final String email, final String post){
 
-        DatabaseHandler databaseHandler = new DatabaseHandler(DatabaseHandler.mailrequest_link,getContext()) {
+        DatabaseHandler databaseHandler = new DatabaseHandler(DatabaseHandler.RESET_PASSWORD_MAIL_CUSTOMER,getContext()) {
             @Override
             public void writeCode(String response) throws JSONException {
 

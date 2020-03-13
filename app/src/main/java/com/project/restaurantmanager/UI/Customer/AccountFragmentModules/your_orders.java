@@ -2,17 +2,13 @@ package com.project.restaurantmanager.UI.Customer.AccountFragmentModules;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.util.Base64;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -25,14 +21,11 @@ import com.project.restaurantmanager.R;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import devs.mulham.horizontalcalendar.utils.HorizontalCalendarPredicate;
 
 public class your_orders extends Fragment {
     List<Orders> orders =new ArrayList<>();
@@ -43,7 +36,7 @@ public class your_orders extends Fragment {
 
         final ListView listView = view.findViewById(R.id.cust_acc_yourorder_listView);
         listView.setDividerHeight(20);
-        DatabaseHandler handler = new DatabaseHandler(DatabaseHandler.yourorders_link,getContext()) {
+        DatabaseHandler handler = new DatabaseHandler(DatabaseHandler.ORDER_LIST_CUSTOMER,getContext()) {
             @Override
             public void writeCode(String response) throws JSONException {
                 JSONArray array = new JSONArray(response);
@@ -60,7 +53,7 @@ public class your_orders extends Fragment {
                         item[k] = items.getString("item");
                         qty[k] = items.getString("qty");
                     }
-                    orders.add(new Orders(object.getString("date"),object.getString("totalamount"),item,qty));
+                    orders.add(new Orders(object.getString("date"),object.getString("totalamount"),item,qty,object.getString("rname")));
                }
                 CustomAdapter arrayAdapter = new CustomAdapter();
                 listView.setAdapter(arrayAdapter);
@@ -99,10 +92,12 @@ public class your_orders extends Fragment {
             TextView amount = view.findViewById(R.id.listview_yourorders_amount);
             TextView date = view.findViewById(R.id.listview_yourorders_date);
             TextView items = view.findViewById(R.id.listview_yourorders_items);
+            TextView rname = view.findViewById(R.id.listview_yourorders_restaurant);
             items.setText("Items : ");
 
             amount.setText("₹ "+(int)Double.parseDouble(orders.get(position).getAmount()));
             date.setText("Date : "+orders.get(position).getDate());
+            rname.setText(orders.get(position).getRestaurant());
 
             String[] strings = orders.get(position).getItems();
             String[] strings1 = orders.get(position).getQuantity();

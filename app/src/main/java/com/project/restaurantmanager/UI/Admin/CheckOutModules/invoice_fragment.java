@@ -24,7 +24,7 @@ import com.project.restaurantmanager.R;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.project.restaurantmanager.Controller.DatabaseHandler.send_invoiceLink;
+import static com.project.restaurantmanager.Controller.DatabaseHandler.INVOICE_TO_CUSTOMER_ADMIN;
 import static com.project.restaurantmanager.UI.Admin.checkout_fragment.ono;
 
 public class invoice_fragment extends Fragment {
@@ -37,7 +37,7 @@ public class invoice_fragment extends Fragment {
         WebView webView = view.findViewById(R.id.admin_invoice_webview);
 
         webView.setWebChromeClient(new WebChromeClient());
-        webView.loadUrl("http://34.93.41.224/invoice_templet_mobile.php?ono="+ono+"+&email="+"");
+        webView.loadUrl("http://34.93.41.224/InvoiceTempletForWebViewAdmin.php?ono="+ono+"+&email="+"");
 
 
         Button send = view.findViewById(R.id.admin_invoice_sendmail);
@@ -62,7 +62,7 @@ public class invoice_fragment extends Fragment {
                 builder.setPositiveButton("Send", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        DatabaseHandler databaseHandler = new DatabaseHandler(send_invoiceLink,getContext()) {
+                        DatabaseHandler databaseHandler = new DatabaseHandler(INVOICE_TO_CUSTOMER_ADMIN,getContext()) {
                             @Override
                             public void writeCode(String response) throws Exception {
                                 Toast.makeText(getContext(),response,Toast.LENGTH_SHORT).show();

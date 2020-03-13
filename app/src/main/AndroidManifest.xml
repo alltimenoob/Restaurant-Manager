@@ -18,7 +18,9 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:icon">
+
         <service
+            android:stopWithTask="false"
             android:name=".Controller.FirebaseMessageService"
             android:enabled="true"
             android:exported="true">
