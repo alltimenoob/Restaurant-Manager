@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -79,12 +80,19 @@ public class checkout_fragment extends Fragment {
         DatabaseHandler handler = new DatabaseHandler(OFFLINE_ORDER_LIST_ADMIN, getContext()) {
             @Override
             public void writeCode(String response) throws Exception {
-                JSONArray array = new JSONArray(response);
-                for (int i = 0; i < array.length(); i++) {
-                    JSONObject object = array.getJSONObject(i);
-                    table_numbers.add(object.getString("Tno"));
-                    order_numbers.add(object.getString("Ono"));
-                    dyanamicviews(i);
+                RelativeLayout layout = view.findViewById(R.id.admin_manageorders_relativelayout);
+                try {
+                    JSONArray array = new JSONArray(response);
+                    layout.setVisibility(View.INVISIBLE);
+                    for (int i = 0; i < array.length(); i++) {
+                        JSONObject object = array.getJSONObject(i);
+                        table_numbers.add(object.getString("Tno"));
+                        order_numbers.add(object.getString("Ono"));
+                        dyanamicviews(i);
+                    }
+                } catch (Exception e)
+                {
+                    layout.setVisibility(View.VISIBLE);
                 }
             }
             @Override

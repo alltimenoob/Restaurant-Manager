@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.project.restaurantmanager.R;
+import com.project.restaurantmanager.UI.Admin.OrderReservationModules.generate_report;
 import com.project.restaurantmanager.UI.Admin.OrderReservationModules.orders_fragment;
 import com.project.restaurantmanager.UI.Admin.OrderReservationModules.reservation_fragment;
 
@@ -25,6 +26,7 @@ public class order_reservation_fragment extends Fragment {
 
         ImageView order = view.findViewById(R.id.order_image);
         ImageView reservation = view.findViewById(R.id.reservation_image);
+        ImageView report = view.findViewById(R.id.generate_image);
 
         order.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -41,6 +43,16 @@ public class order_reservation_fragment extends Fragment {
                 getActivity().getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.admin_container,fragment,null).commit();
             }
         });
+
+        report.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fragment = new generate_report();
+                getActivity().getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.admin_container,fragment,null).commit();
+            }
+        });
+
+
 
         return view;
     }
