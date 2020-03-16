@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.project.restaurantmanager.Controller.DatabaseHandler;
+import com.project.restaurantmanager.Data.Constants;
 import com.project.restaurantmanager.Model.AdminActivity;
 import com.project.restaurantmanager.R;
 
@@ -74,25 +75,36 @@ public class add_employee_fragment extends Fragment {
 
                         JSONObject object = new JSONObject(response);
 
-                        if(object.getInt("error")==1) {
+                        if(new JSONObject(response).getInt("error")==1)
+                        {
                             progressBar.setIndeterminate(false);
+                            Toast.makeText(getContext(), Constants.getError1, Toast.LENGTH_SHORT).show();
                             getActivity().getSupportFragmentManager().popBackStack();
-                            Toast.makeText(getContext(),"Registration Successful!",Toast.LENGTH_SHORT).show();
+                            email.setText("");username.setText("");name.setText("");address.setText("");
                         }
-                        else if(object.getInt("error")==0)
+                        else if(new JSONObject(response).getInt("error")==2)
                         {
                             progressBar.setIndeterminate(false);
-                            Toast.makeText(getContext(),"Please Provide Details!",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), Constants.getError2, Toast.LENGTH_SHORT).show();
+                            email.setText("");username.setText("");name.setText("");address.setText("");
                         }
-                        else if(object.getInt("error")==2)
+                        else if(new JSONObject(response).getInt("error")==3)
                         {
                             progressBar.setIndeterminate(false);
-                            Toast.makeText(getContext(),"Invalid Login Details!",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), Constants.getError3, Toast.LENGTH_SHORT).show();
+                            username.setText("");
                         }
-                        else if(object.getInt("error")==3)
+                        else if(new JSONObject(response).getInt("error")==4)
                         {
                             progressBar.setIndeterminate(false);
-                            Toast.makeText(getContext(),"User Already Exists!",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), Constants.getError4, Toast.LENGTH_SHORT).show();
+                            email.setText("");
+                        }
+                        else if(new JSONObject(response).getInt("error")==5)
+                        {
+                            progressBar.setIndeterminate(false);
+                            Toast.makeText(getContext(), Constants.getError5, Toast.LENGTH_SHORT).show();
+                            email.setText("");
                         }
                     }
 

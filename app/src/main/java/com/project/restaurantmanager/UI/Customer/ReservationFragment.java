@@ -66,6 +66,7 @@ public class ReservationFragment extends Fragment {
             public void onDateSelected(Calendar date, int position) {
                 date.add(Calendar.DAY_OF_MONTH,1);
                 dateDB = String.format("%1$tY-%1$tm-%1$td", date);
+                Log.d("date", "onDateSelected: "+dateDB);
             }
         });
 
@@ -122,7 +123,6 @@ public class ReservationFragment extends Fragment {
                                 startPayment();
                             }
                         }
-
                         @Override
                         public Map<String, String> params() {
                             Map<String, String> map = new HashMap<>();

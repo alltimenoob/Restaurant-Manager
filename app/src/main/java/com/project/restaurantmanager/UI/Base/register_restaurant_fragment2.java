@@ -58,7 +58,7 @@ public class register_restaurant_fragment2 extends Fragment {
     Button signup;
 
     private int mYear, mMonth, mDay, mHour, mMinute;
-    private String encoded ;
+    private String encoded ="";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -99,24 +99,22 @@ public class register_restaurant_fragment2 extends Fragment {
 
                 DatabaseHandler handler = new DatabaseHandler(REGISTER_RESTAURANT, getContext()) {
                     @Override
-                    public void writeCode(String response) throws JSONException, InterruptedException, Exception {
-                        Log.d("ffff", "writeCode: " + response);
-                        if (new JSONObject(response).getInt("error") == 0) {
+                    public void writeCode(String response) throws  Exception {
+                        JSONObject object = new JSONObject(response);
+                        if (object.getInt("error") == 0) {
                             Toast.makeText(getContext(), Constants.getError0, Toast.LENGTH_SHORT).show();
-                        } else if (new JSONObject(response).getInt("error") == 1) {
+                        } else if (object.getInt("error") == 1) {
                             Toast.makeText(getContext(), Constants.getError1, Toast.LENGTH_SHORT).show();
-                            getActivity().getSupportFragmentManager().popBackStack();
-                        } else if (new JSONObject(response).getInt("error") == 2) {
+                            getActivity().recreate();
+                        } else if (object.getInt("error") == 2) {
                             Toast.makeText(getContext(), Constants.getError2, Toast.LENGTH_SHORT).show();
-                        } else if (new JSONObject(response).getInt("error") == 3) {
+                        } else if (object.getInt("error") == 3) {
                             Toast.makeText(getContext(), Constants.getError3, Toast.LENGTH_SHORT).show();
                         }
                     }
                     @Override
                     public Map<String, String> params() {
                         Map<String, String> map = new HashMap<>();
-
-                        Log.d("gggg", "params: "+mData.toString());
 
                         map.put("username", mData.get("username"));
                         map.put("password", mData.get("password"));
@@ -126,21 +124,25 @@ public class register_restaurant_fragment2 extends Fragment {
                         map.put("address", mData.get("address"));
                         map.put("location", mData.get("location"));
                         map.put("GSTIN", mData.get("gstin"));
-                        map.put("image",encoded);
+                        map.put("image", encoded);
                         map.put("roption", String.valueOf(ropt));
+
                         if(ropt==1) {
                             map.put("starttime", stime+"");
                             map.put("endtime", etime+"");
                         }
                         else
                         {
-                            map.put("starttime", "");
-                            map.put("endtime", "");
+                            map.put("starttime", "0");
+                            map.put("endtime", "0");
                         }
+
+                        Log.d("gggg", "params: "+map.toString());
 
                         return map;
                     }
                 };
+
                 List<String> values = new ArrayList<>();
                 values.add(encoded);
                 values.add(name.getText().toString());
@@ -159,6 +161,7 @@ public class register_restaurant_fragment2 extends Fragment {
 
         return view;
     }
+
     void allowReservation()
     {
         startime.setOnClickListener(new View.OnClickListener() {

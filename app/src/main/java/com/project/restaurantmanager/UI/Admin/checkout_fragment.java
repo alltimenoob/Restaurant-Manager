@@ -90,7 +90,8 @@ public class checkout_fragment extends Fragment {
                         order_numbers.add(object.getString("Ono"));
                         dyanamicviews(i);
                     }
-                } catch (Exception e)
+                }
+                catch (Exception e)
                 {
                     layout.setVisibility(View.VISIBLE);
                 }

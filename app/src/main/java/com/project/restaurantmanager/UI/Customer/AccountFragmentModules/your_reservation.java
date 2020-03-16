@@ -6,12 +6,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.project.restaurantmanager.Controller.DatabaseHandler;
 import com.project.restaurantmanager.Data.Reservation;
@@ -29,6 +31,7 @@ import java.util.Map;
 
 public class your_reservation extends Fragment {
     List<Reservation> reservations = new ArrayList<>();
+    FrameLayout empty_layout ;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -36,18 +39,27 @@ public class your_reservation extends Fragment {
 
         final ListView listView = view.findViewById(R.id.cust_acc_yourreservation_listView);
 
+        empty_layout = view.findViewById(R.id.empty_reservation);
+
         DatabaseHandler handler = new DatabaseHandler(DatabaseHandler.RESERVATION_LIST_CUSTOMER,getContext()) {
             @Override
             public void writeCode(String response) throws JSONException {
-                JSONArray array = new JSONArray(response);
-                for(int i=0;i<array.length();i++) {
-                    JSONObject object = array.getJSONObject(i);
-                    reservations.add(new Reservation(object.getString("rdate"),object.getString("starttime"),
-                            object.getString("endtime"),object.getString("guest")
-                            ,object.getString("deposit"),object.getString("tno"),object.getString("rname")));
+                try {
+                    JSONArray array = new JSONArray(response);
+                    for (int i = 0; i < array.length(); i++) {
+                        JSONObject object = array.getJSONObject(i);
+                        reservations.add(new Reservation(object.getString("rdate"), object.getString("starttime"),
+                                object.getString("endtime"), object.getString("guest")
+                                , object.getString("deposit"), object.getString("tno"), object.getString("rname")));
+                    }
+                    empty_layout.setVisibility(View.INVISIBLE);
+                    CustomAdapter arrayAdapter = new CustomAdapter();
+                    listView.setAdapter(arrayAdapter);
                 }
-                CustomAdapter arrayAdapter = new CustomAdapter();
-                listView.setAdapter(arrayAdapter);
+                catch (Exception e)
+                {
+                    empty_layout.setVisibility(View.VISIBLE);
+                }
             }
             @Override
             public Map<String, String> params() {
@@ -62,6 +74,7 @@ public class your_reservation extends Fragment {
 
         return view;
     }
+
     class CustomAdapter extends BaseAdapter {
 
         @Override

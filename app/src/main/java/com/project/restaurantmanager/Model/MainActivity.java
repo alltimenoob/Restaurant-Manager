@@ -1,26 +1,17 @@
 package com.project.restaurantmanager.Model;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.app.Activity;
-import android.app.AlarmManager;
-import android.app.Application;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Toast;
 
-import com.project.restaurantmanager.Controller.FirebaseMessageService;
 import com.project.restaurantmanager.Controller.SharedPreferencesHandler;
 import com.project.restaurantmanager.R;
 import com.project.restaurantmanager.UI.Base.base_fragment;

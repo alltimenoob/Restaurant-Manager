@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -29,34 +30,45 @@ import java.util.Map;
 
 public class your_orders extends Fragment {
     List<Orders> orders =new ArrayList<>();
+    FrameLayout empty_layout ;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.customer_accountyourorders_fragment,container,false);
+
+        empty_layout = view.findViewById(R.id.empty_orders);
 
         final ListView listView = view.findViewById(R.id.cust_acc_yourorder_listView);
         listView.setDividerHeight(20);
         DatabaseHandler handler = new DatabaseHandler(DatabaseHandler.ORDER_LIST_CUSTOMER,getContext()) {
             @Override
             public void writeCode(String response) throws JSONException {
-                JSONArray array = new JSONArray(response);
-                for(int i=0;i<array.length();i++) {
+                try {
+                    JSONArray array = new JSONArray(response);
+                    for (int i = 0; i < array.length(); i++) {
 
-                    JSONObject object = array.getJSONObject(i);
-                    JSONArray array1 = object.getJSONArray("items");
+                        JSONObject object = array.getJSONObject(i);
+                        JSONArray array1 = object.getJSONArray("items");
 
-                    String[] item = new String[array1.length()];
-                    String[] qty = new String[array1.length()];
+                        String[] item = new String[array1.length()];
+                        String[] qty = new String[array1.length()];
 
-                    for(int k=0;k<array1.length();k++) {
-                        JSONObject items = array1.getJSONObject(k);
-                        item[k] = items.getString("item");
-                        qty[k] = items.getString("qty");
+                        for (int k = 0; k < array1.length(); k++) {
+                            JSONObject items = array1.getJSONObject(k);
+                            item[k] = items.getString("item");
+                            qty[k] = items.getString("qty");
+                        }
+                        orders.add(new Orders(object.getString("date"), object.getString("totalamount"), item, qty, object.getString("rname")));
+
+                        empty_layout.setVisibility(View.INVISIBLE);
+                        CustomAdapter arrayAdapter = new CustomAdapter();
+                        listView.setAdapter(arrayAdapter);
                     }
-                    orders.add(new Orders(object.getString("date"),object.getString("totalamount"),item,qty,object.getString("rname")));
-               }
-                CustomAdapter arrayAdapter = new CustomAdapter();
-                listView.setAdapter(arrayAdapter);
+                }
+                catch (Exception e)
+                {
+                    empty_layout.setVisibility(View.VISIBLE);
+                }
             }
             @Override
             public Map<String, String> params() {
@@ -89,6 +101,7 @@ public class your_orders extends Fragment {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             @SuppressLint("ViewHolder") View view = getLayoutInflater().inflate(R.layout.listview_yourorders_layout,parent,false);
+
             TextView amount = view.findViewById(R.id.listview_yourorders_amount);
             TextView date = view.findViewById(R.id.listview_yourorders_date);
             TextView items = view.findViewById(R.id.listview_yourorders_items);

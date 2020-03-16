@@ -60,7 +60,7 @@ public class add_table_fragment extends Fragment {
                         map.put("tno",tableno.getText().toString());
                         map.put("capacity",capacity.getText().toString());
                         Log.d("ridadmin", "writeCode: "+new SharedPreferencesHandler(getContext()).getRid());
-                        map.put("Rid",new SharedPreferencesHandler(getContext()).getRid());
+                        map.put("Rid",new SharedPreferencesHandler(getContext()).getId());
                         return map;
                     }
                 };

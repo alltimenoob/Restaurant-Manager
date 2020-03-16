@@ -107,8 +107,9 @@ public abstract class DatabaseHandler {
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
+        queue.getCache().clear();
         queue.add(request);
     }
-    public abstract void writeCode(String response) throws JSONException, InterruptedException, Exception;
+    public abstract void writeCode(String response) throws  Exception;
     public abstract Map<String, String> params();
 }

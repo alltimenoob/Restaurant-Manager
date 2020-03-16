@@ -41,7 +41,6 @@ public class register_restaurant_fragment extends Fragment {
     String[] locations = {"Baroda", "Anand", "VVNagar", "Ahemdabad","Nadiad","Surat","Bharuch","Bhuj","Rajkot","Bhavnagar"};
     int FILE_SELECT_CODE = 023432;
     ImageView imageView;
-    String encoded;
 
     public static Map<String,String> mData;
     @Nullable
@@ -75,7 +74,7 @@ public class register_restaurant_fragment extends Fragment {
                 DatabaseHandler handler = new DatabaseHandler(REGISTER_RESTAURANT_CHECK, getContext()) {
                     @Override
                     public void writeCode(String response) throws JSONException, InterruptedException, Exception {
-                        Log.d("ffff", "writeCode: " + response);
+                       // Log.d("ffff", "writeCode: " + response);
                         if (new JSONObject(response).getInt("error") == 3) {
                             username.setText("");
                             Toast.makeText(getContext(), Constants.getError3, Toast.LENGTH_SHORT).show();
@@ -92,7 +91,7 @@ public class register_restaurant_fragment extends Fragment {
                             mData.put("gstin",gstin.getText().toString());
                             mData.put("location",location.getSelectedItem().toString());
 
-                            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.base_container,new register_restaurant_fragment2() ,null).commit();
+                            getActivity().getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.base_container,new register_restaurant_fragment2() ,null).commit();
                         }
 
                     }

@@ -55,6 +55,7 @@ public class dashboard_fragment extends Fragment {
      Button finish;
      LinearLayout layoutOuter;
      ColorStateList setTextColor;
+     List<Boolean> buttonStatus;
      
     @Nullable
     @Override
@@ -172,30 +173,38 @@ public class dashboard_fragment extends Fragment {
             public void onClick(View v) {
                 @SuppressLint("ResourceType") final int id = v.getId()-400;
 
-                TextView nam = view.findViewById(id+200);
-                LinearLayout item = view.findViewById(id+300);
+                if(buttonStatus.contains(false))
+                {
+                    Toast.makeText(getContext(),"Please Serve All Food",Toast.LENGTH_SHORT).show();
+                }
+                else {
 
-                DatabaseHandler handler2 = new DatabaseHandler(UPDATE_FINISH_ORDER_EMPLOYEE,getContext()) {
-                    @Override
-                    public void writeCode(String response) throws Exception {
-                        Toast.makeText(getContext(),response,Toast.LENGTH_LONG).show();
-                    }
-                    @Override
-                    public Map<String, String> params() {
-                        Map<String,String> map = new HashMap<>();
-                        map.put("tno",tablenumbers.get(id)+"");
-                        return map;
-                    }
-                };
-                handler2.execute();
+                    TextView nam = view.findViewById(id + 200);
+                    LinearLayout item = view.findViewById(id + 300);
 
-                item.removeAllViews();
+                    DatabaseHandler handler2 = new DatabaseHandler(UPDATE_FINISH_ORDER_EMPLOYEE, getContext()) {
+                        @Override
+                        public void writeCode(String response) throws Exception {
+                            Toast.makeText(getContext(), response, Toast.LENGTH_LONG).show();
+                        }
 
-                order_table.remove(tablenumbers.get(id));
+                        @Override
+                        public Map<String, String> params() {
+                            Map<String, String> map = new HashMap<>();
+                            map.put("tno", tablenumbers.get(id) + "");
+                            return map;
+                        }
+                    };
+                    handler2.execute();
 
-                layoutInner.setBackgroundColor(Color.WHITE);
-                nam.setTextColor(setTextColor);
-                v.setVisibility(View.INVISIBLE);
+                    item.removeAllViews();
+
+                    order_table.remove(tablenumbers.get(id));
+
+                    layoutInner.setBackgroundColor(Color.WHITE);
+                    nam.setTextColor(setTextColor);
+                    v.setVisibility(View.INVISIBLE);
+                }
             }
 
         });
@@ -212,16 +221,20 @@ public class dashboard_fragment extends Fragment {
                     JSONArray array = new JSONArray(response);
                     LinearLayout items = view.findViewById(id);
 
+                   buttonStatus = new ArrayList<>();
+
                     for(int i=0;i<array.length();i++)
                     {
                         JSONObject object = array.getJSONObject(i);
+
+                        buttonStatus.add(i,false);
 
                         ToggleButton toggleButton = new ToggleButton(getContext());
                         RelativeLayout.LayoutParams layoutFortoggle = new RelativeLayout.LayoutParams
                                 (RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
                         layoutFortoggle.bottomMargin=20;
 
-                        toggleButton.setTag(oid);
+                        toggleButton.setTag(i);
                         toggleButton.setBackgroundResource(R.drawable.dashboard_togglebutton);
 
                         toggleButton.setText("   "+object.getString("qty")+" × "+object.getString("name")+"  ");
@@ -234,13 +247,12 @@ public class dashboard_fragment extends Fragment {
                             toggleButton.setEnabled(false);
                         }
 
-
-
                         toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                             @Override
                             public void onCheckedChanged(final CompoundButton buttonView, boolean isChecked) {
                                 if(isChecked)
                                 {
+                                    buttonStatus.set((Integer) buttonView.getTag(),true);
                                     buttonView.setTextColor(Color.WHITE);
                                     DatabaseHandler databaseHandler = new DatabaseHandler(UPDATE_FOODITEM_SERVED_EMPLOYEE,getContext()) {
                                         @Override
@@ -273,7 +285,6 @@ public class dashboard_fragment extends Fragment {
                 }
             };
             handler.execute();
-
 
 
             finish.setVisibility(View.VISIBLE);
