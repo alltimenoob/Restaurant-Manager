@@ -65,8 +65,6 @@ public class RestaurantListFragment extends Fragment {
 
         }
 
-
-
         customAdapter.filter("");
         mRestaurantListView.setAdapter(customAdapter);
 

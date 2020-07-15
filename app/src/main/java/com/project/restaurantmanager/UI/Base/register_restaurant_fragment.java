@@ -74,7 +74,6 @@ public class register_restaurant_fragment extends Fragment {
                 DatabaseHandler handler = new DatabaseHandler(REGISTER_RESTAURANT_CHECK, getContext()) {
                     @Override
                     public void writeCode(String response) throws JSONException, InterruptedException, Exception {
-                       // Log.d("ffff", "writeCode: " + response);
                         if (new JSONObject(response).getInt("error") == 3) {
                             username.setText("");
                             Toast.makeText(getContext(), Constants.getError3, Toast.LENGTH_SHORT).show();

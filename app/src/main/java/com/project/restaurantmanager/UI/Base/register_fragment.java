@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -54,6 +55,7 @@ public class register_fragment extends Fragment {
         final TextInputEditText address = view.findViewById(R.id.reg_address);
         final ProgressBar progressBar = view.findViewById(R.id.signup_progress_circular);
         final Button signupBtn = view.findViewById(R.id.reg_RegisterBtn);
+        
 
         final RequestQueue queue = Volley.newRequestQueue(getContext());
 

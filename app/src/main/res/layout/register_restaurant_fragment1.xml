@@ -163,12 +163,12 @@
 
         <ImageView
             android:id="@+id/reg_res_next"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="30dp"
             android:layout_below="@id/reg_res_location"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_centerHorizontal="true"
-            android:src="@drawable/ic_next" />
+            android:src="@drawable/ic_next_page" />
 
     </RelativeLayout>
 </ScrollView>

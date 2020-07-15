@@ -47,7 +47,6 @@
         android:layout_height="100dp"
         android:visibility="invisible"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="-55dp"
         android:background="@drawable/borderline_layout">
 
         <TextView
