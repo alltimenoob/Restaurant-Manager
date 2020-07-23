@@ -1,8 +1,7 @@
-# Restaurant Manager 
+# Restaurant Manager (An Andorid Application)
 
 Last year project which was never analyzed due to corona :F
 
-- Android Application
 
 ## What does app do?
 
