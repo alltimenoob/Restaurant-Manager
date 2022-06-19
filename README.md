@@ -4,7 +4,7 @@ Last year project which was never analyzed due to corona :F
 
 ##### Team :  alltimenoob,Dev-karanraj
 
-## What does app do?
+## What this app do?
 
 - Restaurant owner can register and signin restaurant to app and add foods and employees.
 - Customer can register and signin select restaurant and order food online.
